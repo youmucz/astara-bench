@@ -88,3 +88,33 @@ export function checkAllProhibitedPatterns(content: string): AssertionResult[] {
 		checkFindChildInLoop(content),
 	];
 }
+
+const BARE_EXCEPT_RE = /\bexcept\s*:/g;
+const MUTABLE_DEFAULT_RE = /def\s+\w+\s*\([^)]*\w+\s*=\s*(\[\s*\]|\{\s*\}|set\s*\(\s*\))/g;
+
+export function checkBareExcept(content: string): AssertionResult {
+	if (BARE_EXCEPT_RE.test(content)) {
+		return {
+			passed: false,
+			message: "Bare except detected — specify the exception type (e.g., except ValueError:)",
+		};
+	}
+	return { passed: true, message: "No bare except detected" };
+}
+
+export function checkMutableDefaultArg(content: string): AssertionResult {
+	if (MUTABLE_DEFAULT_RE.test(content)) {
+		return {
+			passed: false,
+			message: "Mutable default argument detected — use None as default and initialize inside the function",
+		};
+	}
+	return { passed: true, message: "No mutable default arguments detected" };
+}
+
+export function checkAllPythonPatterns(content: string): AssertionResult[] {
+	return [
+		checkBareExcept(content),
+		checkMutableDefaultArg(content),
+	];
+}

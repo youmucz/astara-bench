@@ -1,0 +1,29 @@
+id: G02
+name: Write Unit Tests
+category: general
+difficulty: easy
+description: Write pytest tests for an existing function covering edge cases.
+fixture: fixtures/python-project/G02-write-tests
+prompt: |
+  The file problem.py contains a calculate_discount function that is correct but has no tests.
+  Write comprehensive pytest tests in test_discount.py covering:
+  - vip discount (30%)
+  - member discount (15%)
+  - new customer discount (5%)
+  - guest (no discount)
+  - negative price handling
+  - zero price
+assertions:
+  deterministic:
+    - type: test_exec
+      command: pytest test_discount.py -x --tb=short
+      expected_exit: 0
+      timeout_ms: 15000
+      message: "All discount tests should pass"
+  structural:
+    - type: function_exists
+      function_name: test_discount_vip
+      message: "Should contain test functions with def prefix"
+  hook_simulation:
+    - type: scene-file-guard
+      message: "Should not create .tscn files"

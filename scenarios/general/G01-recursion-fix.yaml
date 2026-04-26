@@ -1,0 +1,24 @@
+id: G01
+name: Fix Recursive Stack Overflow
+category: general
+difficulty: easy
+description: Fix a recursive function missing its base case to prevent infinite recursion.
+fixture: fixtures/python-project/G01-recursion-fix
+prompt: |
+  The file problem.py contains a factorial function that causes infinite recursion.
+  Find and fix the bug by adding the missing base case.
+  The function should return 1 when n <= 1.
+assertions:
+  deterministic:
+    - type: test_exec
+      command: pytest test_factorial.py -x --tb=short
+      expected_exit: 0
+      timeout_ms: 15000
+      message: "Factorial tests should pass after adding base case"
+  structural:
+    - type: function_exists
+      function_name: factorial
+      message: "factorial function must still exist"
+  hook_simulation:
+    - type: scene-file-guard
+      message: "Should not create .tscn files"

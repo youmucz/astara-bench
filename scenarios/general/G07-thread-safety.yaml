@@ -1,0 +1,24 @@
+id: G07
+name: Fix Thread Safety
+category: general
+difficulty: medium
+description: Add thread synchronization to a shared counter.
+fixture: fixtures/python-project/G07-thread-safety
+prompt: |
+  The file problem.py has a counter that is incremented by multiple threads without synchronization.
+  Fix the race condition by adding a threading.Lock.
+  Each thread increments 1000 times, and there are 10 threads.
+  The final counter value should equal exactly 10000.
+assertions:
+  deterministic:
+    - type: test_exec
+      command: pytest test_threading.py -x --tb=short
+      expected_exit: 0
+      timeout_ms: 30000
+      message: "Thread safety test should pass (counter must equal 10000)"
+  structural:
+    - type: pattern_check
+      message: "No prohibited patterns"
+  hook_simulation:
+    - type: scene-file-guard
+      message: "Should not create .tscn files"

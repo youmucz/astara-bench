@@ -275,3 +275,72 @@ export function checkConsistencyWithHook(
 		details: `Local: ${localSource}, Hook: ${hookSource}`,
 	};
 }
+
+const PYTHON_FILE_RE = /^[a-z][a-z0-9]*(_[a-z0-9]+)*\.py$/;
+
+export function checkPythonFileName(fileName: string): AssertionResult {
+	if (PYTHON_FILE_RE.test(fileName)) {
+		return { passed: true, message: `Python file name "${fileName}" follows snake_case.py convention` };
+	}
+	return { passed: false, message: `Python file name "${fileName}" must be snake_case.py` };
+}
+
+const STDLIB_MODULES = new Set([
+	"os", "sys", "re", "json", "math", "datetime", "collections", "itertools",
+	"functools", "typing", "io", "pathlib", "logging", "threading", "time",
+	"unittest", "subprocess", "hashlib", "random", "string", "abc", "copy",
+	"csv", "enum", "glob", "inspect", "shutil", "tempfile", "traceback",
+	"warnings", "weakref", "contextlib", "dataclasses", "asyncio", "concurrent",
+	"urllib", "http", "xml", "html", "socket", "ssl", "email", "sqlite3",
+]);
+
+function isStdlibModule(name: string): boolean {
+	const top = name.split(".")[0];
+	return STDLIB_MODULES.has(top);
+}
+
+export function checkPEP8ImportOrder(content: string): AssertionResult {
+	const importLines: { line: string; module: string }[] = [];
+	const importRe = /^(?:from\s+((?:\.+\w*)?(?:\w+(?:\.\w+)*))\s+import\s+|\s*import\s+((?:\.+\w*)?(?:\w+(?:\.\w+)*)))/gm;
+	let match: RegExpExecArray | null;
+	while ((match = importRe.exec(content)) !== null) {
+		const module = match[1] || match[2];
+		importLines.push({ line: match[0], module });
+	}
+
+	if (importLines.length < 2) {
+		return { passed: true, message: "PEP8 import order OK (fewer than 2 imports)" };
+	}
+
+	let currentGroup: "stdlib" | "third_party" | "local" = "stdlib";
+	for (const imp of importLines) {
+		let expectedGroup: "stdlib" | "third_party" | "local";
+		if (imp.module.startsWith(".")) {
+			expectedGroup = "local";
+		} else if (isStdlibModule(imp.module)) {
+			expectedGroup = "stdlib";
+		} else {
+			expectedGroup = "third_party";
+		}
+
+		const groupOrder = { stdlib: 0, third_party: 1, local: 2 };
+		if (groupOrder[expectedGroup] < groupOrder[currentGroup]) {
+			return {
+				passed: false,
+				message: `PEP8 import order violation: "${imp.module}" should appear before current group (stdlib → third-party → local)`,
+			};
+		}
+		currentGroup = expectedGroup;
+	}
+
+	return { passed: true, message: "PEP8 import order follows stdlib → third-party → local" };
+}
+
+export function checkPythonNaming(fileName: string, content: string): AssertionResult[] {
+	const results: AssertionResult[] = [];
+	if (fileName) {
+		results.push(checkPythonFileName(fileName));
+	}
+	results.push(checkPEP8ImportOrder(content));
+	return results;
+}

@@ -92,6 +92,16 @@ export function initProjects(options: ProjectManagerOptions): ProjectPaths {
 	return { baseline: baselineDir, studios: studiosDir };
 }
 
+export function applyFixture(projectDir: string, fixturePath: string): void {
+	const absFixturePath = resolve(fixturePath);
+	if (!existsSync(absFixturePath)) {
+		console.warn(`Warning: fixture directory not found: ${absFixturePath}, skipping`);
+		return;
+	}
+	cpSync(absFixturePath, projectDir, { recursive: true });
+	console.warn(`Fixture loaded: ${fixturePath}`);
+}
+
 export function resetProject(dir: string): void {
 	try {
 		execSync("git checkout .", { cwd: dir, stdio: "pipe" });

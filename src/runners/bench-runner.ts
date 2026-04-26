@@ -1,12 +1,14 @@
 import { readFileSync, readdirSync, statSync } from "fs";
 import { join, relative } from "path";
 import { parse as parseYaml } from "yaml";
+import { execSync } from "child_process";
 import type { OpencodeClient } from "@opencode-ai/sdk";
-import { checkGDScriptNaming, checkCSharpNaming } from "../assertions/naming.ts";
+import { checkGDScriptNaming, checkCSharpNaming, checkPythonNaming } from "../assertions/naming.ts";
 import { checkAllDependencies } from "../assertions/architecture.ts";
-import { checkAllProhibitedPatterns } from "../assertions/patterns.ts";
+import { checkAllProhibitedPatterns, checkAllPythonPatterns } from "../assertions/patterns.ts";
 import { checkAllGodotRules } from "../assertions/godot-specific.ts";
-import { runAllHookSimulations, type HookSimulationContext, type ToolCallInfo } from "../assertions/hook-simulation.ts";import { resetProject, type ProjectPaths } from "./project-manager.ts";
+import { runAllHookSimulations, type HookSimulationContext, type ToolCallInfo } from "../assertions/hook-simulation.ts";
+import { resetProject, applyFixture, type ProjectPaths } from "./project-manager.ts";
 
 export interface BenchConfig {
 	model: string;
@@ -35,12 +37,15 @@ export interface ScenarioAssertion {
 	constant_name?: string;
 	signal_name?: string;
 	extends_type?: string;
+	command?: string;
+	expected_exit?: number;
+	timeout_ms?: number;
 }
 
 export interface Scenario {
 	id: string;
 	name: string;
-	category: "basic" | "domain" | "negative";
+	category: "basic" | "domain" | "negative" | "general";
 	difficulty: "easy" | "medium" | "hard";
 	description: string;
 	prompt: string;
@@ -222,7 +227,7 @@ export async function executeScenario(
 		for (const path of [...created, ...modified]) {
 			try {
 				contents.set(path, readFileSync(join(projectDir, path), "utf-8"));
-		} catch (err) {
+			} catch (err) {
 				console.warn(`Warning: Failed to read created/modified file ${path}: ${err}`);
 			}
 		}
@@ -320,6 +325,21 @@ function evalDeterministic(
 		}
 		case "consistency_check":
 			return { assertion: a, passed: true, message: "Consistency checked separately" };
+		case "test_exec": {
+			try {
+				const cmd = a.command!;
+				const timeout = a.timeout_ms ?? 30000;
+				const expectedExit = a.expected_exit ?? 0;
+				execSync(cmd, { cwd: projectDir, timeout, stdio: "pipe" });
+				const passed = expectedExit === 0;
+				return { assertion: a, passed, message: passed ? "test_exec: passed" : `test_exec: unexpected exit 0 (expected ${expectedExit})` };
+			} catch (err: any) {
+				const exitCode = err.status ?? 1;
+				const passed = exitCode === (a.expected_exit ?? 0);
+				const stderr = err.stderr?.toString()?.slice(0, 200) ?? "";
+				return { assertion: a, passed, message: passed ? `test_exec: passed (exit ${a.expected_exit})` : (a.message ?? `test_exec failed (exit ${exitCode}): ${stderr}`) };
+			}
+		}
 		default:
 			return { assertion: a, passed: false, message: `WARNING: Unknown assertion type: ${a.type}` };
 	}
@@ -341,8 +361,10 @@ function evaluateStructuralAssertions(
 		switch (a.type) {
 			case "function_exists": {
 				const fn = a.function_name ?? "";
-				const re = new RegExp(`(?:func|function)\\s+${escapeRegex(fn)}\\s*\\(`);
-				const passed = re.test(content);
+				const gdRe = new RegExp(`(?:func|function)\\s+${escapeRegex(fn)}\\s*\\(`);
+				const csRe = new RegExp(`\\b${escapeRegex(fn)}\\s*\\(`);
+				const pyRe = new RegExp(`def\\s+${escapeRegex(fn)}\\s*\\(`);
+				const passed = gdRe.test(content) || csRe.test(content) || pyRe.test(content);
 				results.push({ assertion: a, passed, message: `${fn} ${passed ? "found" : "not found"}` });
 				break;
 			}
@@ -362,8 +384,9 @@ function evaluateStructuralAssertions(
 			}
 			case "extends_type": {
 				const ext = a.extends_type ?? "";
-				const re = new RegExp(`\\bextends\\s+${escapeRegex(ext)}\\b`);
-				const passed = re.test(content);
+				const gdRe = new RegExp(`\\bextends\\s+${escapeRegex(ext)}\\b`);
+				const csRe = new RegExp(`class\\s+\\w+\\s*:\\s*${escapeRegex(ext)}\\b`);
+				const passed = gdRe.test(content) || csRe.test(content);
 				results.push({ assertion: a, passed, message: `extends ${ext} ${passed ? "found" : "not found"}` });
 				break;
 			}
@@ -374,6 +397,8 @@ function evaluateStructuralAssertions(
 					namingResults = checkGDScriptNaming(fileName, content);
 				} else if (fileName.endsWith(".cs")) {
 					namingResults = checkCSharpNaming(fileName, content);
+				} else if (fileName.endsWith(".py")) {
+					namingResults = checkPythonNaming(fileName, content);
 				} else {
 					namingResults = [{ passed: true }];
 				}
@@ -393,8 +418,10 @@ function evaluateStructuralAssertions(
 				break;
 			}
 			case "pattern_check": {
-				const patternResults = checkAllProhibitedPatterns(content);
-				const allPassed = patternResults.every((r) => r.passed);
+				const godotResults = checkAllProhibitedPatterns(content);
+				const pythonResults = checkAllPythonPatterns(content);
+				const allResults = [...godotResults, ...pythonResults];
+				const allPassed = allResults.every((r) => r.passed);
 				results.push({ assertion: a, passed: allPassed, message: allPassed ? "No prohibited patterns" : "Prohibited patterns detected" });
 				break;
 			}
@@ -530,6 +557,10 @@ export async function runScenario(
 	for (const group of groups) {
 		const client = group === "baseline" ? clients.baseline : clients.studios;
 		const projectDir = group === "baseline" ? paths.baseline : paths.studios;
+
+		if (scenario.fixture) {
+			applyFixture(projectDir, scenario.fixture);
+		}
 
 		const existingBefore = new Set<string>();
 		try {

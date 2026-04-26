@@ -6,8 +6,10 @@ import picocolors from "picocolors";
 import { setupDualClients, shutdownClients, type DualClients } from "./runners/opencode-client.ts";
 import { initProjects, type ProjectPaths } from "./runners/project-manager.ts";
 import { loadScenarios, runScenario, type BenchConfig } from "./runners/bench-runner.ts";
+import { runSwebench, type SwebenchConfig, type SwebenchInstanceResult } from "./runners/swebench-runner.ts";
 import {
 	writeReports,
+	writeSwebenchReport,
 	generateBaselineFromResults,
 	saveBaseline,
 	loadBaseline,
@@ -26,9 +28,11 @@ export async function main() {
 
 	program
 		.option("--mode <mode>", "baseline / studios / compare", "compare")
-		.option("--category <cat>", "basic / domain / negative / all", "all")
+		.option("--category <cat>", "basic / domain / negative / general / all", "all")
+		.option("--preset <preset>", "godot / swebench / all", "godot")
 		.option("--scenario <id>", "run a single scenario by ID")
 		.option("--runs <n>", "number of runs per scenario", "5")
+		.option("--max-instances <n>", "max SWE-bench instances to evaluate")
 		.option("--project-dir <path>", "path to an existing Godot game project")
 		.option("--studios-source <src>", "Studios source: 'npm' or local path", "npm")
 		.option("--compare <file>", "compare against baseline file")
@@ -37,22 +41,10 @@ export async function main() {
 		.option("--studios-url <url>", "connect to existing studios opencode server")
 		.action(async (opts) => {
 			const config = loadConfig();
+			const preset = opts.preset ?? "godot";
 
 			console.log(picocolors.cyan("astara-bench: Godot domain benchmark suite"));
 			console.log();
-
-			const scenarios = loadScenarios(
-				config.scenarioDirs.map((d) => resolve(d)),
-				opts.category,
-				opts.scenario,
-			);
-
-			if (scenarios.length === 0) {
-				console.error(picocolors.red("No scenarios found matching criteria."));
-				process.exit(1);
-			}
-
-			console.log(picocolors.dim(`Found ${scenarios.length} scenario(s)`));
 
 			const tempDir = join(tmpdir(), `astara-bench-${Date.now()}`);
 			const projectPaths = initProjects({
@@ -84,30 +76,62 @@ export async function main() {
 					studiosUrl: opts.studiosUrl,
 				});
 
-				const runs = parseInt(opts.runs, 10) || config.runs;
-				const allResults: import("./runners/bench-runner.ts").ScenarioResult[] = [];
+				const runs = parseInt(opts.runs, 10);
+				const runsFinal = isNaN(runs) ? config.runs : runs;
+				const allYamlResults: import("./runners/bench-runner.ts").ScenarioResult[] = [];
+				const allSwebenchResults: SwebenchInstanceResult[] = [];
 
-				for (let i = 0; i < scenarios.length; i++) {
-					const scenario = scenarios[i]!;
-					console.log(
-						picocolors.bold(`[${i + 1}/${scenarios.length}] ${scenario.id}: ${scenario.name}`),
+				if (preset === "godot" || preset === "all") {
+					const scenarios = loadScenarios(
+						config.scenarioDirs.map((d) => resolve(d)),
+						preset === "all" ? undefined : opts.category,
+						preset === "all" ? undefined : opts.scenario,
 					);
 
-					for (let run = 0; run < runs; run++) {
-						if (runs > 1) {
-							console.log(picocolors.dim(`  Run ${run + 1}/${runs}`));
+					if (scenarios.length > 0) {
+						console.log(picocolors.dim(`Found ${scenarios.length} YAML scenario(s)`));
+
+						for (let i = 0; i < scenarios.length; i++) {
+							const scenario = scenarios[i]!;
+							console.log(
+								picocolors.bold(`[${i + 1}/${scenarios.length}] ${scenario.id}: ${scenario.name}`),
+							);
+
+							for (let run = 0; run < runsFinal; run++) {
+								if (runsFinal > 1) {
+									console.log(picocolors.dim(`  Run ${run + 1}/${runsFinal}`));
+								}
+								const results = await runScenario(
+									scenario,
+									clients,
+									projectPaths,
+									config,
+									opts.mode,
+								);
+								for (const r of results) {
+									r.runIndex = run;
+								}
+								allYamlResults.push(...results);
+							}
 						}
-						const results = await runScenario(
-							scenario,
-							clients,
-							projectPaths,
-							config,
-							opts.mode,
-						);
-						for (const r of results) {
-							r.runIndex = run;
+					}
+				}
+
+				if (preset === "swebench" || preset === "all") {
+					const swebenchConfig = config.swebench;
+					if (swebenchConfig) {
+						const maxInstances = opts.maxInstances ? parseInt(opts.maxInstances, 10) : swebenchConfig.maxInstances;
+
+						console.log(picocolors.dim("Running SWE-bench instances..."));
+						const groups: Array<"baseline" | "studios"> = opts.mode === "compare" ? ["baseline", "studios"] : [opts.mode];
+						for (const group of groups) {
+							console.log(picocolors.bold(`SWE-bench group: ${group}`));
+							const client = group === "baseline" ? clients.baseline : clients.studios;
+							const sweResults = await runSwebench(client, swebenchConfig, group, undefined, maxInstances);
+							allSwebenchResults.push(...sweResults);
 						}
-						allResults.push(...results);
+					} else {
+						console.warn(picocolors.yellow("No swebench config found in bench.config.yaml, skipping SWE-bench"));
 					}
 				}
 
@@ -116,17 +140,22 @@ export async function main() {
 					model: config.model,
 					mode: opts.mode,
 					category: opts.category,
-					runs,
-					scenarios: allResults,
+					runs: runsFinal,
+					scenarios: allYamlResults,
 					scenarioWeights: config.scenarioWeights,
 				};
 
 				writeReports(report, "reports");
+
+				if (allSwebenchResults.length > 0) {
+					writeSwebenchReport(allSwebenchResults, "reports");
+				}
+
 				console.log();
 				console.log(picocolors.green("Reports written to reports/latest.json and reports/latest.md"));
 
 				if (opts.updateBaseline) {
-					const baseline = generateBaselineFromResults(allResults, config.model);
+					const baseline = generateBaselineFromResults(allYamlResults, config.model);
 					saveBaseline("baseline.json", baseline);
 					console.log(picocolors.green("Baseline updated: baseline.json"));
 				}
@@ -136,7 +165,7 @@ export async function main() {
 					if (existingBaseline) {
 						let hasRegression = false;
 						for (const entry of existingBaseline.entries) {
-							const currentResults = allResults.filter(
+							const currentResults = allYamlResults.filter(
 								(r) => r.scenarioId === entry.scenarioId && r.group === entry.group,
 							);
 							if (currentResults.length === 0) continue;
@@ -165,7 +194,11 @@ export async function main() {
 	program.parse();
 }
 
-function loadConfig(): BenchConfig {
+interface FullConfig extends BenchConfig {
+	swebench?: SwebenchConfig;
+}
+
+function loadConfig(): FullConfig {
 	const configPath = join(process.cwd(), "bench.config.yaml");
 	const content = readFileSync(configPath, "utf-8");
 	const raw = parseYaml(content) as any;
@@ -192,5 +225,12 @@ function loadConfig(): BenchConfig {
 			health_retry_count: raw.server?.health_retry_count ?? 5,
 			health_retry_interval_ms: raw.server?.health_retry_interval_ms ?? 1000,
 		},
+		swebench: raw.swebench ? {
+			dataset: raw.swebench.dataset ?? "lite",
+			instancesDir: raw.swebench.instances_dir ?? "swebench-instances",
+			reposDir: raw.swebench.repos_dir ?? "swebench-repos",
+			maxInstances: raw.swebench.max_instances ?? 20,
+			timeoutMs: raw.swebench.timeout_ms ?? 600000,
+		} : undefined,
 	};
 }

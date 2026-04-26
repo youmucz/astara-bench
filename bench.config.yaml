@@ -43,6 +43,16 @@ scenario_weights:
   N02: 1.5
   N03: 1.0
   N04: 1.5
+  G01: 1.0
+  G02: 1.0
+  G03: 1.0
+  G04: 1.0
+  G05: 1.0
+  G06: 1.0
+  G07: 1.5
+  G08: 1.0
+  G09: 1.5
+  G10: 1.0
 
 regression:
   std_multiplier: 1.5
@@ -52,5 +62,13 @@ scenario_dirs:
   - scenarios/basic
   - scenarios/domain
   - scenarios/negative
+  - scenarios/general
 
 fixture_dir: fixtures/godot-project-bare
+
+swebench:
+  dataset: lite
+  instances_dir: swebench-instances
+  repos_dir: swebench-repos
+  max_instances: 20
+  timeout_ms: 600000

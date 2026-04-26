@@ -1,6 +1,7 @@
 import { writeFileSync, readFileSync, existsSync, mkdirSync } from "fs";
 import { join } from "path";
 import type { ScenarioResult } from "./bench-runner.ts";
+import type { SwebenchInstanceResult, SwebenchRepoSummary } from "./swebench-runner.ts";
 
 export interface ReportData {
 	timestamp: string;
@@ -186,4 +187,75 @@ export function writeReports(report: ReportData, outputDir: string): void {
 	mkdirSync(outputDir, { recursive: true });
 	writeFileSync(join(outputDir, "latest.json"), generateJsonReport(report));
 	writeFileSync(join(outputDir, "latest.md"), generateMarkdownReport(report));
+}
+
+function summarizeSwebenchByRepo(results: SwebenchInstanceResult[]): SwebenchRepoSummary[] {
+	const repoMap = new Map<string, SwebenchInstanceResult[]>();
+	for (const r of results) {
+		if (!repoMap.has(r.repo)) repoMap.set(r.repo, []);
+		repoMap.get(r.repo)!.push(r);
+	}
+	const summaries: SwebenchRepoSummary[] = [];
+	for (const [repo, instances] of repoMap) {
+		const resolved = instances.filter((i) => i.resolveRate === 1.0).length;
+		const avgDuration = instances.reduce((s, i) => s + i.duration, 0) / instances.length;
+		summaries.push({
+			repo,
+			instances: instances.length,
+			resolved,
+			resolveRate: instances.length > 0 ? resolved / instances.length : 0,
+			avgDuration,
+		});
+	}
+	return summaries.sort((a, b) => a.repo.localeCompare(b.repo));
+}
+
+export function generateSwebenchMarkdown(results: SwebenchInstanceResult[]): string {
+	const lines: string[] = [];
+	lines.push(`## SWE-bench Results`);
+	lines.push(``);
+
+	const repoSummaries = summarizeSwebenchByRepo(results);
+	if (repoSummaries.length === 0) {
+		lines.push(`No results.`);
+		return lines.join("\n");
+	}
+
+	lines.push(`| Repo | Resolve Rate | Resolved | Avg Duration | Instances |`);
+	lines.push(`|------|-------------|----------|-------------|-----------|`);
+	for (const s of repoSummaries) {
+		lines.push(`| ${s.repo} | ${(s.resolveRate * 100).toFixed(1)}% | ${s.resolved}/${s.instances} | ${(s.avgDuration / 1000).toFixed(1)}s | ${s.instances} |`);
+	}
+
+	const totalResolved = repoSummaries.reduce((s, r) => s + r.resolved, 0);
+	const totalInstances = repoSummaries.reduce((s, r) => s + r.instances, 0);
+	const overallRate = totalInstances > 0 ? (totalResolved / totalInstances * 100).toFixed(1) : "0.0";
+
+	lines.push(`| **Overall** | **${overallRate}%** | **${totalResolved}/${totalInstances}** | | ${totalInstances} |`);
+	lines.push(``);
+
+	lines.push(`### Instance Details`);
+	lines.push(``);
+	lines.push(`| Instance | Repo | Group | Resolve Rate | Duration | Status |`);
+	lines.push(`|----------|------|-------|-------------|----------|--------|`);
+	for (const r of results) {
+		const dur = (r.duration / 1000).toFixed(1);
+		lines.push(`| ${r.instanceId} | ${r.repo} | ${r.group} | ${(r.resolveRate * 100).toFixed(1)}% | ${dur}s | ${r.status} |`);
+	}
+	lines.push(``);
+
+	return lines.join("\n");
+}
+
+export function writeSwebenchReport(results: SwebenchInstanceResult[], outputDir: string): void {
+	mkdirSync(outputDir, { recursive: true });
+	writeFileSync(join(outputDir, "swebench.md"), generateSwebenchMarkdown(results));
+	writeFileSync(join(outputDir, "swebench.json"), JSON.stringify(results, null, 2));
+
+	const existingPath = join(outputDir, "latest.md");
+	if (existsSync(existingPath)) {
+		const md = readFileSync(existingPath, "utf-8");
+		const swebenchMd = generateSwebenchMarkdown(results);
+		writeFileSync(existingPath, md + "\n" + swebenchMd);
+	}
 }
