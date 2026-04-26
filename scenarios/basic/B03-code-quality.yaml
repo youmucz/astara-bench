@@ -1,0 +1,34 @@
+id: B03
+name: Code Quality
+category: basic
+difficulty: medium
+description: Test code quality - no AI comments, proper constants, no prohibited patterns
+prompt: |
+  Create a health system for a game character. The system should:
+  - Have max health, current health properties
+  - Support taking damage and healing
+  - Emit signals when health changes or reaches zero
+  - Clamp health between 0 and max
+assertions:
+  deterministic:
+    - type: regex
+      pattern: "signal"
+      message: "Must define signals for health events"
+    - type: regex
+      pattern: "@export"
+      message: "Must use @export for configurable properties"
+  structural:
+    - type: function_exists
+      function_name: "take_damage"
+      message: "Must have take_damage function"
+    - type: function_exists
+      function_name: "heal"
+      message: "Must have heal function"
+    - type: has_constant
+      constant_name: "MAX_HEALTH"
+      message: "Should use constants for magic numbers"
+    - type: pattern_check
+      message: "Should not contain prohibited patterns"
+  hook_simulation:
+    - type: comment-checker
+      message: "Should not contain AI-style comments"

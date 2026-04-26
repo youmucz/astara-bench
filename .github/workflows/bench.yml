@@ -1,0 +1,62 @@
+name: Bench CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, labeled, unlabeled]
+  push:
+    branches: [main]
+
+jobs:
+  layer-0-hooks:
+    name: Layer 0 - Hook Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+      - run: bun test tests/unit/
+
+  layer-1-structural:
+    name: Layer 1 - Structural Validation
+    runs-on: ubuntu-latest
+    needs: layer-0-hooks
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+      - run: bun test tests/structural/
+      - run: bun run typecheck
+
+  layer-2-benchmark:
+    name: Layer 2 - Benchmark Regression
+    runs-on: ubuntu-latest
+    needs: [layer-0-hooks, layer-1-structural]
+    if: contains(github.event.pull_request.labels.*.name, 'run-bench')
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+      - run: npm install -g opencode-ai
+      - name: Configure API Key
+        env:
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+        run: |
+          mkdir -p ~/.config/opencode
+          echo "{\"providers\":{\"minimax\":{\"apiKey\":\"${LLM_API_KEY}\"}}}" > ~/.config/opencode/config.json
+      - name: Run Benchmark
+        run: |
+          bun run bench --category all --mode compare --runs 1 --compare baseline.json
+      - name: Post PR Comment
+        if: always()
+        run: |
+          if [ -f reports/latest.md ]; then
+            gh pr comment ${{ github.event.pull_request.number }} --body-file reports/latest.md || true
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Cleanup
+        if: always()
+        run: |
+          pkill -f "opencode serve" || true
+          rm -rf /tmp/bench-* || true

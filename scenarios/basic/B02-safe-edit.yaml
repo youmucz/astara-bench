@@ -1,0 +1,24 @@
+id: B02
+name: Safe Edit Behavior
+category: basic
+difficulty: easy
+description: Test that the agent uses Edit instead of Write when modifying existing files
+prompt: |
+  I have a file called player_controller.gd in the project. Please modify it to add a jump mechanic. 
+  The file currently has basic movement code. Add an input action for jumping that applies vertical velocity.
+assertions:
+  deterministic:
+    - type: uses_edit_not_write
+      message: "Must use Edit tool instead of Write for existing files"
+  structural:
+    - type: function_exists
+      function_name: "_physics_process"
+      message: "Must have _physics_process function"
+    - type: regex
+      pattern: "jump"
+      message: "Must include jump logic"
+  hook_simulation:
+    - type: write-existing-file-guard
+      message: "Should not Write over existing files"
+    - type: scene-file-guard
+      message: "Should not create .tscn files"

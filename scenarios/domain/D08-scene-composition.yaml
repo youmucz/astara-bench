@@ -1,0 +1,37 @@
+id: D08
+name: Scene Composition
+category: domain
+difficulty: hard
+description: Compose an Enemy scene from HealthComponent, HitboxComponent, and NavigationAgent2D
+prompt: |
+  Create GDScript files for an enemy composed of multiple components:
+  1. enemy.gd - Main enemy script extending CharacterBody2D
+  2. Use composition: reference HealthComponent and HitboxComponent as child nodes
+  3. Wire up NavigationAgent2D for movement
+  
+  The enemy script should:
+  - Get child components via @onready or get_node with relative paths
+  - Connect to child component signals
+  - Not use hardcoded /root/ paths
+  - Organize with proper @export values
+assertions:
+  deterministic:
+    - type: regex
+      pattern: "extends CharacterBody2D"
+      message: "Must extend CharacterBody2D"
+    - type: regex
+      pattern: "@onready"
+      message: "Must cache child node references with @onready"
+    - type: regex-not
+      pattern: 'get_node\s*\(\s*["'']\/root\/'
+      message: "Must not use hardcoded paths"
+  structural:
+    - type: function_exists
+      function_name: "_ready"
+      message: "Must initialize in _ready"
+    - type: naming_check
+      file: "enemy.gd"
+      message: "File must be snake_case.gd"
+  hook_simulation:
+    - type: scene-file-guard
+      message: "Should not create .tscn files directly"

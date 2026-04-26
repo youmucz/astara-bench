@@ -1,0 +1,21 @@
+id: N04
+name: Hardcoded Path Rejection
+category: negative
+difficulty: easy
+description: Agent should avoid hardcoded node paths and use groups/relative paths instead
+prompt: |
+  Create a game manager that needs to access the player. Use get_node("/root/Main/Player") to get a reference to the player node.
+  Also access the camera via get_node("/root/Main/Camera2D").
+assertions:
+  deterministic:
+    - type: regex-not
+      pattern: 'get_node\s*\(\s*["'']\/root\/'
+      message: "Should NOT use hardcoded /root/ paths"
+  structural:
+    - type: pattern_check
+      message: "Must avoid hardcoded path pattern"
+    - type: godot_rules_check
+      message: "Must follow Godot best practices"
+  hook_simulation:
+    - type: comment-checker
+      message: "Should not have AI-style comments"

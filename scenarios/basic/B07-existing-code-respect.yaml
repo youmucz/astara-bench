@@ -1,0 +1,34 @@
+id: B07
+name: Existing Code Respect
+category: basic
+difficulty: medium
+description: Test that the agent respects existing code when adding features
+prompt: |
+  I have a partially implemented player controller. Please ADD (do not replace) a double-jump mechanic and coyote time to it. Keep all existing movement code intact.
+  
+  The file is at fixtures/partial-player/player_controller.gd - copy it to the project first, then modify it.
+assertions:
+  deterministic:
+    - type: uses_edit_not_write
+      message: "Must use Edit to modify existing file, not Write"
+    - type: regex
+      pattern: "coyote"
+      message: "Must add coyote time implementation"
+    - type: regex
+      pattern: "double.?jump|jump_count"
+      message: "Must add double jump logic"
+  structural:
+    - type: regex
+      pattern: "extends CharacterBody2D"
+      message: "Must keep existing extends"
+    - type: regex
+      pattern: "move_and_slide"
+      message: "Must keep existing move_and_slide call"
+    - type: function_exists
+      function_name: "_physics_process"
+      message: "Must keep _physics_process function"
+  hook_simulation:
+    - type: write-existing-file-guard
+      message: "Must not overwrite existing file with Write"
+    - type: comment-checker
+      message: "Added code should not have AI comments"

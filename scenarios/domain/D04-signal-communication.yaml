@@ -1,0 +1,37 @@
+id: D04
+name: Signal Communication System
+category: domain
+difficulty: medium
+description: Signal-based communication between HitboxComponent, HealthComponent, and UI
+prompt: |
+  Create a signal communication system with three scripts:
+  1. hitbox_component.gd - Detects hits and emits a signal with damage info
+  2. health_component.gd - Listens for damage signals, manages health
+  3. health_bar.gd - UI Control that displays health, listens to health_changed signal
+  
+  Connect them via signals only (no direct references). The health bar should update when health changes.
+  Show how to properly connect and disconnect signals.
+assertions:
+  deterministic:
+    - type: regex
+      pattern: "signal"
+      message: "Must define signals"
+    - type: regex
+      pattern: "\\.connect"
+      message: "Must use .connect() to wire signals"
+    - type: regex
+      pattern: "disconnect"
+      message: "Must disconnect signals in _exit_tree"
+  structural:
+    - type: signal_exists
+      signal_name: "hit_detected"
+      message: "Hitbox must emit hit_detected signal"
+    - type: function_exists
+      function_name: "_exit_tree"
+      message: "Must have _exit_tree for cleanup"
+    - type: naming_check
+      file: "hitbox_component.gd"
+      message: "File must be snake_case.gd"
+  hook_simulation:
+    - type: comment-checker
+      message: "No AI comments"

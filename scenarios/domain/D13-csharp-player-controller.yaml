@@ -1,0 +1,34 @@
+id: D13
+name: C# Player Controller
+category: domain
+difficulty: medium
+description: C# version of a player controller with proper C# naming conventions
+prompt: |
+  Create a player controller in C# for Godot 4:
+  - CharacterBody2D based
+  - Left/right movement with speed
+  - Jump with velocity
+  - Use _PhysicsProcess (not _Process) for physics
+  - Export fields for speed and jump velocity
+  - Use proper C# naming: PascalCase methods, _camelCase private fields, camelCase parameters
+assertions:
+  deterministic:
+    - type: regex
+      pattern: "CharacterBody2D"
+      message: "Must use CharacterBody2D"
+    - type: regex
+      pattern: "MoveAndSlide"
+      message: "Must call MoveAndSlide()"
+    - type: regex
+      pattern: "\\[Export\\]"
+      message: "Must use [Export] for configurable properties"
+  structural:
+    - type: function_exists
+      function_name: "_PhysicsProcess"
+      message: "Physics must be in _PhysicsProcess"
+    - type: naming_check
+      file: "PlayerController.cs"
+      message: "C# file must be PascalCase.cs"
+  hook_simulation:
+    - type: scene-file-guard
+      message: "Should not create .tscn files"

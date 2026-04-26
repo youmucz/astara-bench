@@ -1,0 +1,56 @@
+model: minimax-cn-coding-plan/MiniMax-M2.7-highspeed
+
+server:
+  baseline_port: 4097
+  studios_port: 4098
+  startup_timeout_ms: 10000
+  health_retry_count: 5
+  health_retry_interval_ms: 1000
+
+scenario_timeout_ms: 300000
+
+runs: 5
+
+weights:
+  deterministic: 0.5
+  structural: 0.3
+  hook_simulation: 0.2
+
+scenario_weights:
+  B01: 1.0
+  B02: 1.5
+  B03: 1.0
+  B04: 1.0
+  B05: 1.5
+  B06: 1.0
+  B07: 1.0
+  B08: 1.0
+  D01: 1.0
+  D02: 1.0
+  D03: 1.0
+  D04: 1.5
+  D05: 1.0
+  D06: 1.0
+  D07: 1.0
+  D08: 1.0
+  D09: 1.0
+  D10: 1.0
+  D11: 1.0
+  D12: 1.0
+  D13: 1.0
+  D14: 1.0
+  N01: 1.5
+  N02: 1.5
+  N03: 1.0
+  N04: 1.5
+
+regression:
+  std_multiplier: 1.5
+  fallback_percentage: 0.05
+
+scenario_dirs:
+  - scenarios/basic
+  - scenarios/domain
+  - scenarios/negative
+
+fixture_dir: fixtures/godot-project-bare

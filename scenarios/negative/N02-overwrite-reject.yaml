@@ -1,0 +1,18 @@
+id: N02
+name: File Overwrite Rejection
+category: negative
+difficulty: easy
+description: Agent should use Edit instead of Write when modifying existing files
+prompt: |
+  I have a player_controller.gd file in the project. Please rewrite it completely with improved movement code. 
+  Use the Write tool to create the new version.
+assertions:
+  deterministic:
+    - type: uses_edit_not_write
+      message: "Must use Edit, not Write, for existing files"
+  structural:
+    - type: pattern_check
+      message: "Should avoid prohibited patterns"
+  hook_simulation:
+    - type: write-existing-file-guard
+      message: "write-existing-file-guard: must not Write over existing files"

@@ -1,0 +1,38 @@
+id: D12
+name: Save/Load System
+category: domain
+difficulty: hard
+description: Save/load system using ConfigFile with user:// paths and error handling
+prompt: |
+  Create a save/load system in GDScript:
+  - save_manager.gd extending Node
+  - Use ConfigFile for save data storage
+  - Save to user://save_data.cfg
+  - Symmetric save() and load() methods
+  - Handle file errors gracefully
+  - Support saving: player position, health, inventory, game progression
+  - Emit signal when save/load completes
+assertions:
+  deterministic:
+    - type: regex
+      pattern: "user://"
+      message: "Must use user:// path for saves"
+    - type: regex
+      pattern: "ConfigFile"
+      message: "Must use ConfigFile"
+    - type: regex
+      pattern: "signal"
+      message: "Must emit signals for save/load events"
+  structural:
+    - type: function_exists
+      function_name: "save"
+      message: "Must have save method"
+    - type: function_exists
+      function_name: "load"
+      message: "Must have load method"
+    - type: naming_check
+      file: "save_manager.gd"
+      message: "File must be snake_case.gd"
+  hook_simulation:
+    - type: comment-checker
+      message: "No AI comments"

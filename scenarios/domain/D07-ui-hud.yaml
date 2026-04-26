@@ -1,0 +1,34 @@
+id: D07
+name: UI HUD
+category: domain
+difficulty: medium
+description: Game HUD with health bar, score, and pause button updated via signals
+prompt: |
+  Create a game HUD system in GDScript:
+  - hud.gd extending CanvasLayer or Control
+  - Health bar that updates via signal
+  - Score label that updates via signal
+  - Pause button that emits a signal (does not call get_node("/root/..."))
+  - All UI updates happen through signal connections, not direct player references
+  - Use @onready for node references
+assertions:
+  deterministic:
+    - type: regex
+      pattern: "extends (CanvasLayer|Control)"
+      message: "Must extend CanvasLayer or Control"
+    - type: regex-not
+      pattern: 'get_node\s*\(\s*["'']\/root\/'
+      message: "Must not use hardcoded paths to player"
+    - type: regex
+      pattern: "@onready"
+      message: "Must use @onready for node references"
+  structural:
+    - type: function_exists
+      function_name: "_ready"
+      message: "Must connect signals in _ready"
+    - type: naming_check
+      file: "hud.gd"
+      message: "File must be snake_case.gd"
+  hook_simulation:
+    - type: scene-file-guard
+      message: "Should not create .tscn files"
