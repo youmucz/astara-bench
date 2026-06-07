@@ -1,0 +1,13 @@
+answer:
+  task_id: T034
+  ground_truth:
+    type: set
+    expected_items:
+      - "scalability"
+      - "consistency"
+      - "fault-tolerance"
+      - "ops"
+      - "eviction"
+      - "replication"
+  rationale: |
+    Address all 4 dimensions with specific concerns and tradeoffs.

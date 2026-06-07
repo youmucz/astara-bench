@@ -1,0 +1,11 @@
+answer:
+  task_id: T002
+  ground_truth:
+    type: set
+    expected_items:
+      - "no zero check"
+      - "division by zero"
+      - "no type check"
+  rationale: |
+    The function has no input validation: it crashes on b=0 (ZeroDivisionError)
+    and on non-numeric inputs (TypeError). These are the well-known defects.

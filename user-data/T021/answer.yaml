@@ -1,0 +1,12 @@
+answer:
+  task_id: T021
+  ground_truth:
+    type: set
+    expected_items:
+      - "inconsistent"
+      - "missing idempotency"
+      - "DELETE not idempotent"
+      - "naming inconsistency"
+      - "v1 vs no version"
+  rationale: |
+    v1/user vs /users is inconsistent; DELETE should support Idempotency-Key.

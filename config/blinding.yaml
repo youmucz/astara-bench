@@ -1,0 +1,8 @@
+# general-agent-bench blinding configuration
+# When enabled, scorers hash model identifiers before scoring to prevent
+# scorer bias based on which model produced the response.
+
+enabled: true
+# Random hex used to seed alias generation. Replace with a fresh random value
+# when initializing a new benchmark instance.
+model_alias_seed: "00000000000000000000000000000000"

@@ -1,0 +1,13 @@
+answer:
+  task_id: T035
+  ground_truth:
+    type: set
+    expected_items:
+      - "race condition"
+      - "TOCTOU"
+      - "lock"
+      - "mutex"
+      - "atomic"
+      - "double-checked locking"
+  rationale: |
+    Identify the specific race; suggest lock/atomic primitives.

@@ -1,0 +1,12 @@
+# TR002 鈥?Different seed acceptable
+control:
+  id: TR002
+  layer: time-reproducibility
+  type: reproducibility
+  name: "Different seed produces different output but similar score"
+  description: "Run the same task 2 times with different seeds. Outputs should differ but scores should be within 5%."
+  framework_dependency: NONE
+  expectation:
+    output_differs: true
+    score_within: 0.05
+  failure_action: ABORT_EXPERIMENT

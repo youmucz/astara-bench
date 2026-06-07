@@ -1,0 +1,13 @@
+answer:
+  task_id: T046
+  ground_truth:
+    type: set
+    expected_items:
+      - "EXPLAIN"
+      - "index"
+      - "N+1"
+      - "JOIN"
+      - "eager load"
+      - "select_related"
+  rationale: |
+    Run EXPLAIN, identify N+1, add indexes, use JOINs or select_related.

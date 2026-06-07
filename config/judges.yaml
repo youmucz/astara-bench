@@ -1,0 +1,23 @@
+# general-agent-bench LLM judge pool
+# 3 default judges from 3 different organizations (placeholders).
+# Replace the model / endpoint / api_key_env values with your real judge configurations.
+# Required: jury_size defaults to 3; all judges SHALL be from different organizations.
+
+judges:
+  - id: judge-a
+    org: org-1
+    model: model-a-org-1
+    endpoint: https://api.org-1.example.com/v1/chat
+    api_key_env: ORG1_API_KEY
+  - id: judge-b
+    org: org-2
+    model: model-b-org-2
+    endpoint: https://api.org-2.example.com/v1/chat
+    api_key_env: ORG2_API_KEY
+  - id: judge-c
+    org: org-3
+    model: model-c-org-3
+    endpoint: https://api.org-3.example.com/v1/chat
+    api_key_env: ORG3_API_KEY
+
+jury_size: 3

@@ -1,0 +1,7 @@
+# general-agent-bench blocklist configuration
+# User-maintained. Default is empty. Add tool-specific keywords/patterns as needed
+# to enforce the user's own anti-contamination policy for user-data/.
+# This file is read by validators/check-user-data-blocklist.sh and ci/check-user-data.sh.
+
+keywords: []
+patterns: []

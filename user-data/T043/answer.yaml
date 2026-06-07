@@ -1,0 +1,13 @@
+answer:
+  task_id: T043
+  ground_truth:
+    type: list
+    expected_items:
+      - "timing attack"
+      - "session fixation"
+      - "CSRF"
+      - "logging secrets"
+      - "replay attack"
+      - "missing rate limit"
+  rationale: |
+    Auth vulns: timing attack on password compare, session fixation, CSRF, secret logging, replay.

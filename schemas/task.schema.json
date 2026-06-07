@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://general-agent-bench/schemas/task.schema.json",
+  "title": "General Agent Bench Task",
+  "description": "Schema for a single test case in the general-agent-bench framework. Each task is a YAML file with two siblings: task.yaml (the prompt) and answer.yaml (the ground truth, kept separate to prevent leakage).",
+  "type": "object",
+  "required": ["task"],
+  "properties": {
+    "task": {
+      "type": "object",
+      "required": ["id", "version", "difficulty", "family", "input", "evaluation", "contamination"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^T[0-9]{3}$",
+          "description": "Three-digit task ID, zero-padded (T001..T999)."
+        },
+        "version": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Task version; increment on any modification."
+        },
+        "created": {
+          "type": "string",
+          "format": "date"
+        },
+        "author": { "type": "string" },
+        "reviewer": { "type": "string" },
+        "difficulty": {
+          "type": "object",
+          "required": ["self_assessed", "axis_scores"],
+          "properties": {
+            "self_assessed": {
+              "type": "string",
+              "enum": ["easy", "medium", "hard", "expert"]
+            },
+            "rationale": { "type": "string" },
+            "axis_scores": {
+              "type": "object",
+              "required": ["cognitive_complexity", "information_availability", "gt_clarity", "domain_breadth"],
+              "properties": {
+                "cognitive_complexity":    { "type": "integer", "minimum": 1, "maximum": 4 },
+                "information_availability": { "type": "integer", "minimum": 1, "maximum": 4 },
+                "gt_clarity":               { "type": "integer", "minimum": 1, "maximum": 4 },
+                "domain_breadth":           { "type": "integer", "minimum": 1, "maximum": 4 }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "family": {
+          "type": "string",
+          "enum": [
+            "code-review", "bug-detection", "design-evaluation", "documentation",
+            "refactoring", "test-writing", "config-handling", "naming-consistency",
+            "edge-case-analysis", "security-review", "performance-analysis",
+            "tradeoff-reasoning"
+          ]
+        },
+        "sub_family": { "type": "string" },
+        "input": {
+          "type": "object",
+          "required": ["prompt", "mode"],
+          "properties": {
+            "prompt": { "type": "string", "minLength": 1 },
+            "mode": { "type": "string", "enum": ["one_shot", "few_shot", "multi_turn"] }
+          }
+        },
+        "evaluation": {
+          "type": "object",
+          "required": ["pass_criteria"],
+          "properties": {
+            "pass_criteria": { "$ref": "scoring.schema.json#/definitions/pass_criteria" },
+            "timeout_sec": { "type": "integer", "minimum": 1, "default": 30 },
+            "max_tokens": { "type": "integer", "minimum": 1, "default": 2000 }
+          }
+        },
+        "contamination": {
+          "type": "object",
+          "required": ["blocklist_check", "no_famous_cve_pattern", "identifier_randomized", "gt_in_separate_file", "answer_not_in_prompt", "pr_dual_approved"],
+          "properties": {
+            "blocklist_check": { "type": "boolean" },
+            "no_famous_cve_pattern": { "type": "boolean" },
+            "identifier_randomized": { "type": "boolean" },
+            "gt_in_separate_file": { "type": "boolean" },
+            "answer_not_in_prompt": { "type": "boolean" },
+            "pr_dual_approved": { "type": "boolean" },
+            "checksum": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

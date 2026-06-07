@@ -1,0 +1,14 @@
+answer:
+  task_id: T040
+  ground_truth:
+    type: jury
+    verdict: "pass"   # majority of expert judges will agree
+    criteria:
+      - "behavior preserved"
+      - "duplication eliminated"
+      - "max nesting ≤ 2"
+      - "docstring present"
+  rationale: |
+    A correct refactor extracts the duplicated `name = r["name"].strip().lower()`
+    and the `if name:` check into a helper, then handles the 3 status cases
+    with a multiplier lookup. Nesting should drop to 1-2 levels.

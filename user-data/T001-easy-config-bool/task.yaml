@@ -1,0 +1,45 @@
+task:
+  id: T001
+  version: 1
+  created: 2026-06-09
+  author: keely-bench-pilot
+  reviewer: keely-bench-pilot
+
+  difficulty:
+    self_assessed: easy
+    rationale: "Single-step boolean parse with explicit GT. Sum of axes 4 → easy."
+    axis_scores:
+      cognitive_complexity: 1
+      information_availability: 1
+      gt_clarity: 1
+      domain_breadth: 1
+
+  family: config-handling
+  sub_family: bool-parse
+
+  input:
+    prompt: |
+      Parse the following YAML config and report the value of `port`,
+      normalized to an integer. Reply with ONLY the number.
+      ```yaml
+      service:
+        enabled: yes
+        port: "8080"
+      ```
+    mode: one_shot
+
+  evaluation:
+    pass_criteria:
+      type: exact_match
+      value: "8080"
+    timeout_sec: 30
+    max_tokens: 200
+
+  contamination:
+    blocklist_check: true
+    no_famous_cve_pattern: true
+    identifier_randomized: true
+    gt_in_separate_file: true
+    answer_not_in_prompt: true
+    pr_dual_approved: true
+    checksum: pending

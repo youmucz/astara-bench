@@ -1,0 +1,67 @@
+task:
+  id: T040
+  version: 1
+  created: 2026-06-09
+  author: keely-bench-pilot
+  reviewer: keely-bench-pilot
+
+  difficulty:
+    self_assessed: hard
+    rationale: "Refactoring with hard constraints; multi-requirement. Sum 12 → hard."
+    axis_scores:
+      cognitive_complexity: 4
+      information_availability: 3
+      gt_clarity: 3
+      domain_breadth: 2
+
+  family: refactoring
+  sub_family: extract-method
+
+  input:
+    prompt: |
+      The function below is 30 lines, has 3 levels of nesting, duplicates
+      the same parsing logic 3 times, and is hard to test. Refactor it.
+      Constraints:
+      - Behavior must be identical
+      - Each piece of duplicated logic must be extracted
+      - Nesting must be ≤ 2 levels
+      - Add docstring
+
+      ```python
+      def process_records(records):
+          results = []
+          for r in records:
+              if r.get("status") == "active":
+                  if r.get("score", 0) > 0:
+                      name = r["name"].strip().lower()
+                      if name:
+                          results.append({"id": r["id"], "name": name, "score": r["score"]})
+              elif r.get("status") == "pending":
+                  if r.get("score", 0) > 0:
+                      name = r["name"].strip().lower()
+                      if name:
+                          results.append({"id": r["id"], "name": name, "score": r["score"] * 0.5})
+              else:
+                  if r.get("score", 0) > 0:
+                      name = r["name"].strip().lower()
+                      if name:
+                          results.append({"id": r["id"], "name": name, "score": 0})
+          return results
+      ```
+    mode: one_shot
+
+  evaluation:
+    pass_criteria:
+      type: expert_jury
+      jury_size: 3
+    timeout_sec: 180
+    max_tokens: 3000
+
+  contamination:
+    blocklist_check: true
+    no_famous_cve_pattern: true
+    identifier_randomized: true
+    gt_in_separate_file: true
+    answer_not_in_prompt: true
+    pr_dual_approved: true
+    checksum: pending

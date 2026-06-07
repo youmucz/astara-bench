@@ -1,0 +1,51 @@
+# Template: Medium difficulty task
+# Copy to user-data/T<NNN>-<slug>/task.yaml and fill in.
+# Medium = 2-3 step reasoning, GT may be a finite set, often requires simple extraction.
+task:
+  id: TXXX
+  version: 1
+  created: 2026-06-09
+  author: <github-handle>
+  reviewer: <github-handle-2>
+
+  difficulty:
+    self_assessed: medium
+    rationale: "2-3 step reasoning; finite-set GT; expect 60-85% pass rate from top models."
+    axis_scores:
+      cognitive_complexity: 3
+      information_availability: 2
+      gt_clarity: 2
+      domain_breadth: 2
+
+  family: design-evaluation
+  sub_family: api-review
+
+  input:
+    prompt: |
+      You are reviewing a design proposal for a URL shortener service.
+      Evaluate the proposal on 4 dimensions: scalability, reliability, security, maintainability.
+      For each dimension, give a 1-sentence verdict and a 1-sentence improvement suggestion.
+
+      ```markdown
+      {{proposal_content}}
+      ```
+    mode: one_shot
+
+  evaluation:
+    pass_criteria:
+      type: set_match
+      must_include_any:
+        - ["scalability", "scale"]
+        - ["reliability", "fail"]
+        - ["security"]
+        - ["maintainability"]
+    timeout_sec: 60
+    max_tokens: 1500
+
+  contamination:
+    blocklist_check: true
+    no_famous_cve_pattern: true
+    identifier_randomized: true
+    gt_in_separate_file: true
+    answer_not_in_prompt: true
+    pr_dual_approved: true

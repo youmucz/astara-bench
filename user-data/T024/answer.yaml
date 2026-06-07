@@ -1,0 +1,13 @@
+answer:
+  task_id: T024
+  ground_truth:
+    type: set
+    expected_items:
+      - "mock"
+      - "patch"
+      - "requests.get"
+      - "MagicMock"
+      - "assert"
+      - "return_value"
+  rationale: |
+    Use unittest.mock.patch on requests.get, set return_value, assert called.

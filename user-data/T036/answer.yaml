@@ -1,0 +1,13 @@
+answer:
+  task_id: T036
+  ground_truth:
+    type: set
+    expected_items:
+      - "event listener"
+      - "unclosed"
+      - "interval"
+      - "not cleared"
+      - "closure"
+      - "setTimeout"
+  rationale: |
+    Likely culprits: uncleared intervals, event listeners not removed, large object retention in closures.

@@ -1,0 +1,7 @@
+answer:
+  task_id: T011
+  ground_truth:
+    type: exact
+    value: "alpha"
+  rationale: |
+    Direct extraction.

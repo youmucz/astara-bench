@@ -1,0 +1,12 @@
+# DC001 鈥?Easy-baseline anchor
+control:
+  id: DC001
+  layer: difficulty-calibration
+  type: difficulty-anchor
+  name: "Easy baseline: top model pass rate > 85%"
+  description: "Validates that the rubric's 'easy' label correlates with empirical pass rates."
+  framework_dependency: NONE
+  expectation:
+    top_model_pass_rate: ">= 0.85"
+    easy_label_threshold: 0.85
+  failure_action: WARN

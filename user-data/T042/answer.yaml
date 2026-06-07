@@ -1,0 +1,13 @@
+answer:
+  task_id: T042
+  ground_truth:
+    type: set
+    expected_items:
+      - "DI"
+      - "constructor"
+      - "interface"
+      - "mock"
+      - "test"
+      - "decouple"
+  rationale: |
+    Inject DB client, logger, config via constructor; remove hard-coded imports.

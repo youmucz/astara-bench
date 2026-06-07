@@ -1,0 +1,12 @@
+# DC003 鈥?Expert-baseline anchor
+control:
+  id: DC003
+  layer: difficulty-calibration
+  type: difficulty-anchor
+  name: "Expert baseline: top model pass rate < 35%"
+  description: "Validates that the rubric's 'expert' label correlates with empirical pass rates."
+  framework_dependency: NONE
+  expectation:
+    top_model_pass_rate: "< 0.35"
+    expert_label_threshold: 0.35
+  failure_action: WARN

@@ -1,0 +1,13 @@
+answer:
+  task_id: T020
+  ground_truth:
+    type: set
+    expected_items:
+      - "scalability"
+      - "reliability"
+      - "security"
+      - "maintainability"
+  rationale: |
+    A complete 4-dimension review must address each of the 4 dimensions
+    (scalability, reliability, security, maintainability) with at least one
+    specific observation or improvement suggestion.

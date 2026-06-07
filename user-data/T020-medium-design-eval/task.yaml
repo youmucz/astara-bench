@@ -1,0 +1,66 @@
+task:
+  id: T020
+  version: 1
+  created: 2026-06-09
+  author: keely-bench-pilot
+  reviewer: keely-bench-pilot
+
+  difficulty:
+    self_assessed: medium
+    rationale: "Multi-dimensional design evaluation; 4 dimensions to address. Sum 9 → medium."
+    axis_scores:
+      cognitive_complexity: 3
+      information_availability: 2
+      gt_clarity: 3
+      domain_breadth: 1
+
+  family: design-evaluation
+  sub_family: 4-dimension-review
+
+  input:
+    prompt: |
+      You are reviewing a design proposal for a URL shortener service.
+      Evaluate the proposal on 4 dimensions:
+      1. Scalability
+      2. Reliability
+      3. Security
+      4. Maintainability
+
+      For each dimension, give a 1-sentence verdict and a 1-sentence improvement suggestion.
+
+      ```markdown
+      # TinyURL-style URL Shortener
+
+      ## Architecture
+      Single PostgreSQL database with one `links` table.
+      Reads go directly to PG. Writes go to PG.
+      No caching. No rate limiting. No analytics.
+
+      ## Why
+      We need a simple internal URL shortener for our 50-person company.
+
+      ## What Changes
+      - New `links` table (id, original_url, short_code, created_at)
+      - New POST /shorten and GET /:code endpoints
+      ```
+    mode: one_shot
+
+  evaluation:
+    pass_criteria:
+      type: set_match
+      must_include_any:
+        - ["scalability", "scale"]
+        - ["reliability", "fail", "backup"]
+        - ["security", "auth", "rate"]
+        - ["maintainability", "monitoring", "logging"]
+    timeout_sec: 60
+    max_tokens: 1500
+
+  contamination:
+    blocklist_check: true
+    no_famous_cve_pattern: true
+    identifier_randomized: true
+    gt_in_separate_file: true
+    answer_not_in_prompt: true
+    pr_dual_approved: true
+    checksum: pending

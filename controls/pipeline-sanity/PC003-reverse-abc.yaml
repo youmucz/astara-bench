@@ -1,0 +1,21 @@
+# PC003 鈥?Reverse "abc"
+control:
+  id: PC003
+  layer: pipeline-sanity
+  type: positive
+  name: "Trivial: reverse a 3-char string"
+  description: "Asks the LLM to reverse 'abc'. Any working LLM must pass."
+  framework_dependency: NONE
+  expectation:
+    top_model_pass_rate: ">= 0.99"
+  failure_action: ABORT_EXPERIMENT
+  task:
+    family: shell-scripting
+    difficulty:
+      self_assessed: easy
+      axis_scores: {cognitive_complexity: 1, information_availability: 1, gt_clarity: 1, domain_breadth: 1}
+    input:
+      prompt: "Reverse the string 'abc'. Reply with only the reversed string."
+      mode: one_shot
+    evaluation:
+      pass_criteria: {type: exact_match, value: "cba"}

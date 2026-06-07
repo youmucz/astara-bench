@@ -1,0 +1,11 @@
+answer:
+  task_id: T010
+  ground_truth:
+    type: set
+    expected_items:
+      - "SQLite"
+      - "A"
+      - "simpler"
+      - "no ops"
+  rationale: |
+    For 10 users, SQLite is sufficient. Postgres is over-engineering.

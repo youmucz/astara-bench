@@ -1,0 +1,13 @@
+answer:
+  task_id: T018
+  ground_truth:
+    type: set
+    expected_items:
+      - "race condition"
+      - "thread safety"
+      - "atomic"
+      - "concurrent"
+      - "lock"
+      - "GIL"
+  rationale: |
+    Race condition under concurrent calls; needs lock or atomic operation.

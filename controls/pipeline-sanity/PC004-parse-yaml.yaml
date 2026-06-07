@@ -1,0 +1,28 @@
+# PC004 鈥?Parse simple YAML
+control:
+  id: PC004
+  layer: pipeline-sanity
+  type: positive
+  name: "Trivial: parse simple YAML"
+  description: "Asks the LLM to extract a value from a simple YAML snippet."
+  framework_dependency: NONE
+  expectation:
+    top_model_pass_rate: ">= 0.99"
+  failure_action: ABORT_EXPERIMENT
+  task:
+    family: config-handling
+    difficulty:
+      self_assessed: easy
+      axis_scores: {cognitive_complexity: 1, information_availability: 1, gt_clarity: 1, domain_breadth: 1}
+    input:
+      prompt: |
+        Parse this YAML and report the value of `name`:
+        ```yaml
+        service:
+          name: alpha
+          port: 80
+        ```
+        Reply with only the value.
+      mode: one_shot
+    evaluation:
+      pass_criteria: {type: exact_match, value: "alpha"}

@@ -1,0 +1,13 @@
+answer:
+  task_id: T028
+  ground_truth:
+    type: list
+    expected_items:
+      - "SQL injection"
+      - "XSS"
+      - "CSRF"
+      - "missing auth"
+      - "secret in code"
+      - "missing HTTPS"
+  rationale: |
+    Common Flask vulns: SQLi, XSS, CSRF, missing auth/secret, debug=True in prod.

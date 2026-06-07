@@ -1,0 +1,14 @@
+answer:
+  task_id: T032
+  ground_truth:
+    type: set
+    expected_items:
+      - "201"
+      - "409"
+      - "duplicate"
+      - "token"
+      - "POST /signup"
+      - "assert"
+      - "email"
+  rationale: |
+    Two tests: happy (201 + token), duplicate (409). Use a test client.

@@ -1,0 +1,11 @@
+# DC005 鈥?Medium/Expert discriminator
+control:
+  id: DC005
+  layer: difficulty-calibration
+  type: discriminator
+  name: "Medium/Expert pair: pass rate gap > 15%"
+  description: "Pairs a medium task and an expert task; the score gap must exceed 15%."
+  framework_dependency: NONE
+  expectation:
+    min_gap: 0.15
+  failure_action: WARN

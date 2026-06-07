@@ -1,0 +1,12 @@
+# DC002 鈥?Hard-baseline anchor
+control:
+  id: DC002
+  layer: difficulty-calibration
+  type: difficulty-anchor
+  name: "Hard baseline: top model pass rate 35-60%"
+  description: "Validates that the rubric's 'hard' label correlates with empirical pass rates."
+  framework_dependency: NONE
+  expectation:
+    top_model_pass_rate: "0.35 <= x <= 0.60"
+    hard_label_threshold: 0.5
+  failure_action: WARN

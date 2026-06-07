@@ -1,0 +1,11 @@
+answer:
+  task_id: T050
+  ground_truth:
+    type: jury
+    verdict: "pass"
+    criteria:
+      - "comprehensive coverage"
+      - "specific evidence"
+      - "balanced judgment"
+  rationale: |
+    Jury evaluates: cost scale, ops burden, feature completeness, hiring cost, growth trajectory, exit optionality.

@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://general-agent-bench/schemas/scoring.schema.json",
+  "title": "General Agent Bench Scoring",
+  "description": "Defines the 4 scoring strategies and their required fields.",
+  "type": "object",
+  "definitions": {
+    "pass_criteria": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["exact_match", "set_match", "list_f1", "expert_jury"]
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "type": { "const": "exact_match" } }, "required": ["type"] },
+          "then": { "required": ["type", "value"] }
+        },
+        {
+          "if": { "properties": { "type": { "const": "set_match" } }, "required": ["type"] },
+          "then": { "required": ["type"] }
+        },
+        {
+          "if": { "properties": { "type": { "const": "list_f1" } }, "required": ["type"] },
+          "then": { "required": ["type", "min_precision", "min_recall", "min_f1"] }
+        },
+        {
+          "if": { "properties": { "type": { "const": "expert_jury" } }, "required": ["type"] },
+          "then": { "required": ["type", "jury_size"] }
+        }
+      ],
+      "properties": {
+        "value": { "description": "GT string for exact_match" },
+        "alternative_accept": { "type": "array", "items": { "type": "string" } },
+        "reject_pattern": { "type": "array", "items": { "type": "string" } },
+        "must_include_any": { "type": "array" },
+        "must_not_include": { "type": "array", "items": { "type": "string" } },
+        "min_precision": { "type": "number", "minimum": 0, "maximum": 1 },
+        "min_recall":    { "type": "number", "minimum": 0, "maximum": 1 },
+        "min_f1":         { "type": "number", "minimum": 0, "maximum": 1 },
+        "jury_size": { "type": "integer", "minimum": 1, "maximum": 5, "default": 3 }
+      }
+    }
+  }
+}

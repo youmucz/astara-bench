@@ -1,0 +1,13 @@
+answer:
+  task_id: T019
+  ground_truth:
+    type: set
+    expected_items:
+      - "is_running"
+      - "is_valid"
+      - "is_active"
+      - "prefix with is_"
+      - "has_"
+      - "should_"
+  rationale: |
+    Booleans should be prefixed: is_running, is_valid, is_active.

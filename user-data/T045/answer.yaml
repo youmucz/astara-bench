@@ -1,0 +1,14 @@
+answer:
+  task_id: T045
+  ground_truth:
+    type: set
+    expected_items:
+      - "mock"
+      - "S3"
+      - "SQS"
+      - "DB"
+      - "end-to-end"
+      - "test client"
+      - "fixture"
+  rationale: |
+    Use moto/boto3 stubs for AWS; mock DB layer; assert SQS messages emitted.

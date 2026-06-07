@@ -1,0 +1,13 @@
+answer:
+  task_id: T039
+  ground_truth:
+    type: set
+    expected_items:
+      - "split-brain"
+      - "clock skew"
+      - "lease expiry"
+      - "fencing token"
+      - "network partition"
+      - "GC pause"
+  rationale: |
+    Edge cases: split-brain, clock skew, lease expiry, network partition, GC pause.

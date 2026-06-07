@@ -1,0 +1,21 @@
+# NC003 鈥?Empty input
+control:
+  id: NC003
+  layer: pipeline-sanity
+  type: negative
+  name: "Empty input"
+  description: "Sends an empty prompt. Framework must handle it gracefully (no crash)."
+  framework_dependency: NONE
+  expectation:
+    top_model_pass_rate: "<= 0.10"
+  failure_action: ABORT_EXPERIMENT
+  task:
+    family: shell-scripting
+    difficulty:
+      self_assessed: easy
+      axis_scores: {cognitive_complexity: 1, information_availability: 1, gt_clarity: 1, domain_breadth: 1}
+    input:
+      prompt: ""
+      mode: one_shot
+    evaluation:
+      pass_criteria: {type: exact_match, value: "EMPTY_INPUT_HANDLED"}

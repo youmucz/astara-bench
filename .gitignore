@@ -1,7 +1,24 @@
-node_modules/
-dist/
-reports/
-baseline.json
-tmp/
-*.log
+# general-agent-bench ignore patterns
+# SPDX-License-Identifier: Apache-2.0
+
+# Run results
+results/
+*.results.jsonl
+*.report.md
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
 .DS_Store
+Thumbs.db
+
+# Editor / IDE
+.idea/
+.vscode/
+*.iml
+
+# Build / test artifacts (none expected, but defensive)
+node_modules/
+__pycache__/
+*.pyc

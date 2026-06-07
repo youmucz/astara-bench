@@ -1,0 +1,12 @@
+# SA002 鈥?3-judge disagreement
+control:
+  id: SA002
+  layer: cross-scorer-agreement
+  type: cross-scorer
+  name: "3 LLM judges disagree on ambiguous GT"
+  description: "Task with intentionally ambiguous GT. 3 judges are expected to disagree; framework should route to human review."
+  framework_dependency: NONE
+  expectation:
+    disagreement_expected: true
+    routes_to_human_review: true
+  failure_action: WARN

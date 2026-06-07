@@ -1,0 +1,11 @@
+answer:
+  task_id: T049
+  ground_truth:
+    type: jury
+    verdict: "pass"
+    criteria:
+      - "comprehensive coverage"
+      - "specific evidence"
+      - "balanced judgment"
+  rationale: |
+    Jury evaluates: found timing attack, session fixation, CSRF, secret logging, replay attack; hardening design sound; severity ranking correct.

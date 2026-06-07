@@ -1,0 +1,11 @@
+# DC004 鈥?Easy/Hard discriminator
+control:
+  id: DC004
+  layer: difficulty-calibration
+  type: discriminator
+  name: "Easy/Hard pair: pass rate gap > 30%"
+  description: "Pairs an easy task and a hard task; the score gap must exceed 30%."
+  framework_dependency: NONE
+  expectation:
+    min_gap: 0.30
+  failure_action: WARN

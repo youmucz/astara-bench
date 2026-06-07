@@ -1,0 +1,22 @@
+# NC001 鈥?Output a 200-digit prime
+# Negative control: should be impossible/improbable for any LLM.
+control:
+  id: NC001
+  layer: pipeline-sanity
+  type: negative
+  name: "Impossible: output a 200-digit prime number"
+  description: "Asks the LLM to output a 200-digit prime. Trivially fails 鈥?verifies that the framework correctly identifies impossible tasks as failing."
+  framework_dependency: NONE
+  expectation:
+    top_model_pass_rate: "<= 0.01"
+  failure_action: ABORT_EXPERIMENT
+  task:
+    family: shell-scripting
+    difficulty:
+      self_assessed: easy
+      axis_scores: {cognitive_complexity: 1, information_availability: 1, gt_clarity: 1, domain_breadth: 1}
+    input:
+      prompt: "Output a prime number that has exactly 200 digits. Reply with only the prime."
+      mode: one_shot
+    evaluation:
+      pass_criteria: {type: exact_match, value: "NO_VALID_PRIME_200_DIGITS"}

@@ -1,0 +1,11 @@
+answer:
+  task_id: T017
+  ground_truth:
+    type: set
+    expected_items:
+      - "off-by-one"
+      - "index out of range"
+      - "should be len(arr)-1"
+      - "IndexError"
+  rationale: |
+    arr[len(arr)] is out of bounds. Should be arr[len(arr) - 1] or arr[-1].

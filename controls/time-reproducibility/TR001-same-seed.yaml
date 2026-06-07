@@ -1,0 +1,11 @@
+# TR001 鈥?Same seed same result
+control:
+  id: TR001
+  layer: time-reproducibility
+  type: reproducibility
+  name: "Same seed produces same result"
+  description: "Run the same task 2 times with the same seed. Outputs should be bit-equal (or LLM-judge equal within tolerance)."
+  framework_dependency: NONE
+  expectation:
+    bit_equal: true
+  failure_action: ABORT_EXPERIMENT

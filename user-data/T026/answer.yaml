@@ -1,0 +1,13 @@
+answer:
+  task_id: T026
+  ground_truth:
+    type: set
+    expected_items:
+      - "validate"
+      - "schema"
+      - "raises"
+      - "FileNotFoundError"
+      - "yaml.YAMLError"
+      - "type check"
+  rationale: |
+    Should handle: file not found, YAML parse error, missing required fields.

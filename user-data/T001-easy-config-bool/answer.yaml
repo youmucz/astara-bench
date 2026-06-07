@@ -1,0 +1,8 @@
+answer:
+  task_id: T001
+  ground_truth:
+    type: exact
+    value: "8080"
+  rationale: |
+    "8080" is a string in YAML, but the question explicitly asks for an integer.
+    The expected output is the parsed integer.

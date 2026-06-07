@@ -1,0 +1,13 @@
+answer:
+  task_id: T030
+  ground_truth:
+    type: set
+    expected_items:
+      - "Added"
+      - "DELETE"
+      - "idempotency"
+      - "Idempotency-Key"
+      - "header"
+      - "added"
+  rationale: |
+    Use keep-a-changelog format: ## [Added] - idempotency-...

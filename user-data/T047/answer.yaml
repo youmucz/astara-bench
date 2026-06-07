@@ -1,0 +1,11 @@
+answer:
+  task_id: T047
+  ground_truth:
+    type: jury
+    verdict: "pass"
+    criteria:
+      - "comprehensive coverage"
+      - "specific evidence"
+      - "balanced judgment"
+  rationale: |
+    Jury evaluates: chose B (Kafka+ES), justified with workload, addressed 5 dimensions, future evolution, no ignored tradeoff.

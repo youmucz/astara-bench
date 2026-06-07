@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://general-agent-bench/schemas/difficulty-rubric.schema.json",
+  "title": "General Agent Bench Difficulty Rubric",
+  "description": "Defines the 4-axis difficulty rubric and the level-mapping (sum 4-16 → easy/medium/hard/expert).",
+  "type": "object",
+  "required": ["axes", "level_mapping"],
+  "properties": {
+    "axes": {
+      "type": "object",
+      "required": ["cognitive_complexity", "information_availability", "gt_clarity", "domain_breadth"],
+      "properties": {
+        "cognitive_complexity": {
+          "type": "object",
+          "properties": {
+            "1": { "type": "string", "const": "single fact lookup" },
+            "2": { "type": "string", "const": "2-3 step reasoning" },
+            "3": { "type": "string", "const": "multi-step with implicit premises" },
+            "4": { "type": "string", "const": "cross-domain synthesis" }
+          }
+        },
+        "information_availability": {
+          "type": "object",
+          "properties": {
+            "1": { "type": "string", "const": "answer given in input" },
+            "2": { "type": "string", "const": "simple extraction" },
+            "3": { "type": "string", "const": "synthesis from input" },
+            "4": { "type": "string", "const": "requires external world knowledge" }
+          }
+        },
+        "gt_clarity": {
+          "type": "object",
+          "properties": {
+            "1": { "type": "string", "const": "unique string" },
+            "2": { "type": "string", "const": "finite set match" },
+            "3": { "type": "string", "const": "multiple correct (fuzzy)" },
+            "4": { "type": "string", "const": "multi-dimensional subjective" }
+          }
+        },
+        "domain_breadth": {
+          "type": "object",
+          "properties": {
+            "1": { "type": "string", "const": "general programming" },
+            "2": { "type": "string", "const": "standard CS" },
+            "3": { "type": "string", "const": "specific subdomain (concurrency/security/DB)" },
+            "4": { "type": "string", "const": "highly specialized" }
+          }
+        }
+      }
+    },
+    "level_mapping": {
+      "type": "object",
+      "description": "Sum of axis scores → difficulty level",
+      "properties": {
+        "easy":   { "type": "integer", "minimum": 4, "maximum": 6 },
+        "medium": { "type": "integer", "minimum": 7, "maximum": 10 },
+        "hard":   { "type": "integer", "minimum": 11, "maximum": 13 },
+        "expert": { "type": "integer", "minimum": 14, "maximum": 16 }
+      }
+    }
+  }
+}

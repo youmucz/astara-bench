@@ -1,0 +1,12 @@
+answer:
+  task_id: T005
+  ground_truth:
+    type: set
+    expected_items:
+      - "empty list"
+      - "non-numeric"
+      - "None values"
+      - "infinity"
+      - "very large numbers"
+  rationale: |
+    Common edges: empty list (ZeroDivisionError), non-numeric (TypeError), overflow.

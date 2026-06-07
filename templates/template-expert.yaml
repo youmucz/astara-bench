@@ -1,0 +1,50 @@
+# Template: Expert difficulty task
+# Expert = cross-domain synthesis, multi-dimensional subjective GT, requires external knowledge.
+task:
+  id: TXXX
+  version: 1
+  created: 2026-06-09
+  author: <github-handle>
+  reviewer: <github-handle-2>
+
+  difficulty:
+    self_assessed: expert
+    rationale: "Cross-domain synthesis with multi-dimensional subjective GT; expect < 35% pass rate from top models."
+    axis_scores:
+      cognitive_complexity: 4
+      information_availability: 4
+      gt_clarity: 4
+      domain_breadth: 4
+
+  family: tradeoff-reasoning
+  sub_family: architecture-choice
+
+  input:
+    prompt: |
+      Three architects proposed different designs for a chat application's message storage layer:
+
+      A) PostgreSQL with single `messages` table, indexed by (room_id, timestamp). Read with offset pagination.
+      B) Kafka log, materialize into Elasticsearch for search. Read with cursor pagination.
+      C) Custom LSM-tree on local SSD, replicate via Raft to 3 nodes. Read with sequence number.
+
+      Your team needs: 10M messages/day, 6-month retention, 100 concurrent active rooms,
+      occasional full-text search, strong consistency required.
+
+      Justify which design (A/B/C) is best, considering: performance, operational complexity,
+      cost, failure modes, future evolution.
+    mode: one_shot
+
+  evaluation:
+    pass_criteria:
+      type: expert_jury
+      jury_size: 3
+    timeout_sec: 180
+    max_tokens: 3000
+
+  contamination:
+    blocklist_check: true
+    no_famous_cve_pattern: true
+    identifier_randomized: true
+    gt_in_separate_file: true
+    answer_not_in_prompt: true
+    pr_dual_approved: true

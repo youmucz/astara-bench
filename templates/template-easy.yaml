@@ -1,0 +1,46 @@
+# Template: Easy difficulty task
+# Copy this file to user-data/T<NNN>-<slug>/task.yaml and fill in the values.
+# Place the GT in the same directory as answer.yaml (separate file to prevent leakage).
+task:
+  id: TXXX
+  version: 1
+  created: 2026-06-09
+  author: <github-handle>
+  reviewer: <github-handle-2>
+
+  difficulty:
+    self_assessed: easy
+    rationale: "Single-step operation with explicit GT; expect > 85% pass rate from top models."
+    axis_scores:
+      cognitive_complexity: 1
+      information_availability: 1
+      gt_clarity: 1
+      domain_breadth: 1
+
+  family: config-handling
+  sub_family: bool-parse
+
+  input:
+    prompt: |
+      Parse the following YAML config and report the value of `port`, normalized to an integer.
+      ```yaml
+      service:
+        enabled: yes
+        port: "8080"
+      ```
+    mode: one_shot
+
+  evaluation:
+    pass_criteria:
+      type: exact_match
+      value: "8080"
+    timeout_sec: 30
+    max_tokens: 200
+
+  contamination:
+    blocklist_check: true
+    no_famous_cve_pattern: true
+    identifier_randomized: true
+    gt_in_separate_file: true
+    answer_not_in_prompt: true
+    pr_dual_approved: true

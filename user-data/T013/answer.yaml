@@ -1,0 +1,14 @@
+answer:
+  task_id: T013
+  ground_truth:
+    type: set
+    expected_items:
+      - "module"
+      - "parses config"
+      - "yaml"
+      - "json"
+      - "toml"
+      - "usage example"
+      - "main exports"
+  rationale: |
+    A complete module docstring should describe purpose, list exports, and include a usage example.

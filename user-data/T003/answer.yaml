@@ -1,0 +1,7 @@
+answer:
+  task_id: T003
+  ground_truth:
+    type: exact
+    value: "Adds two numbers and returns their sum."
+  rationale: |
+    Matches the simple docstring pattern; the function name and behavior are trivial to document.

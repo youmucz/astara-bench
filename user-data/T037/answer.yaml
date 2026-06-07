@@ -1,0 +1,14 @@
+answer:
+  task_id: T037
+  ground_truth:
+    type: set
+    expected_items:
+      - "hypothesis"
+      - "@given"
+      - "st.lists"
+      - "sort"
+      - "idempotent"
+      - "sorted"
+      - "length"
+  rationale: |
+    Properties: idempotence (sort(sort(x)) == sort(x)), length preservation, sorted output.

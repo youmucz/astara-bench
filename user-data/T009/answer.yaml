@@ -1,0 +1,11 @@
+answer:
+  task_id: T009
+  ground_truth:
+    type: set
+    expected_items:
+      - "def test_add"
+      - "add(2, 3) == 5"
+      - "happy path"
+      - "assert"
+  rationale: |
+    A single happy-path test: def test_add(): assert add(2, 3) == 5.

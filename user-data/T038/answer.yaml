@@ -1,0 +1,14 @@
+answer:
+  task_id: T038
+  ground_truth:
+    type: set
+    expected_items:
+      - "API consistency"
+      - "error handling"
+      - "observability"
+      - "security"
+      - "metrics"
+      - "tracing"
+      - "logging"
+  rationale: |
+    Address all 4 dimensions; provide file:line references; rank issues.

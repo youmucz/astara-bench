@@ -1,0 +1,279 @@
+# general-agent-bench v1.0.0-frozen manifest
+# 50 tasks, all families covered.
+# SHA-256 checksums pinned; ci/check-manifest-checksum.sh enforces integrity.
+
+version: 1.0.0-frozen
+frozen: true
+total_tasks: 50
+
+summary:
+  by_difficulty:
+    easy: 12
+    medium: 20
+    hard: 14
+    expert: 4
+  by_family:
+    bug-detection: 4
+    code-review: 4
+    config-handling: 5
+    design-evaluation: 5
+    documentation: 4
+    edge-case-analysis: 4
+    naming-consistency: 2
+    performance-analysis: 4
+    refactoring: 6
+    security-review: 3
+    test-writing: 6
+    tradeoff-reasoning: 3
+
+tasks:
+  - id: T001
+    family: config-handling
+    difficulty: easy
+    task_yaml_sha256: 312ea6584e643fc7951f567fd5a2d62fbdf665b370482712b3cadd4dc018814b
+    answer_yaml_sha256: 95b85d91a70a76ebbfd4ea02460f004d6ab4bda5e477111cb6e6eaad895e013e
+  - id: T002
+    family: code-review
+    difficulty: easy
+    task_yaml_sha256: 9a6cf276b0d025aaf0b904007c37255a51ecf824bcf056b9ea9dbbdc6b6cfe64
+    answer_yaml_sha256: 408c4e1aecada4f3c5c9db1a89365340e7ff8b5d0ebf81e7b8046d440df97f3b
+  - id: T003
+    family: documentation
+    difficulty: easy
+    task_yaml_sha256: 46e04662a9c0b92210c0dbca29d90e7258e89f8ca0fe880554df509d2ca2a285
+    answer_yaml_sha256: 58cf4d3a4f6ee261cde03feeedfb87271a9f23a96fd0bf3bfc8fd20a8656f246
+  - id: T004
+    family: refactoring
+    difficulty: easy
+    task_yaml_sha256: 5b26cd439a1c767e5d8e7ce7e88ebe2f349d881566089e7575e64a134f6eba67
+    answer_yaml_sha256: 28955ae4eba6481b9f43c57fcf81124db7b38fe5107b6dd865396977bdcfa1b4
+  - id: T005
+    family: edge-case-analysis
+    difficulty: easy
+    task_yaml_sha256: de3640be7a05e7df5cad4a9fd1854fca4be3fbe729d014e689899714f7b3edff
+    answer_yaml_sha256: 0b1af29fd7088d71080d9ff6e22122456d7115e8ee72f91a269fd61265d73522
+  - id: T006
+    family: naming-consistency
+    difficulty: easy
+    task_yaml_sha256: 10b943ea3f601b5653e268cb6e0f685e7d7de3afc05845fb95be3e51ae38ae72
+    answer_yaml_sha256: d153722dbd154a48ddc22d0b5408f03408211e4d565ded4708dbffda06066b90
+  - id: T007
+    family: security-review
+    difficulty: easy
+    task_yaml_sha256: e910d799398fb80e4668d984b4d5bfe4c4545d773ecd1c902b6119ecb92db058
+    answer_yaml_sha256: e983d8e7353e31475d2e0f8b929b782b4517d91d9e453a83ed7bd790f9ea2e18
+  - id: T008
+    family: performance-analysis
+    difficulty: easy
+    task_yaml_sha256: c27b9d413fabcd0faf41a65d4e9df4a893a739d89dfc2c73dcaea388021c5659
+    answer_yaml_sha256: 3a18a3dc901e7131cb394ef45a0ffd1ce1087ba1ab9cd82216289fbcfcd5ec7b
+  - id: T009
+    family: test-writing
+    difficulty: easy
+    task_yaml_sha256: 5f9c14d405466e7c609f6c31d612318657fb8a0fae03a5def3d194c8b82ec7ad
+    answer_yaml_sha256: dbf681341520f9ec9a0051d40900e00452772e743b904fa99baed74f2c49ba0e
+  - id: T010
+    family: tradeoff-reasoning
+    difficulty: easy
+    task_yaml_sha256: 23b1f7ac9bde420e8599675edc003a835ceaf1d817c0b3a980c99b0420db8ea8
+    answer_yaml_sha256: 444ba25601c0dfa74f428e419265eae78fefbf5ed4119bdb3eca5c766ecbe072
+  - id: T011
+    family: config-handling
+    difficulty: easy
+    task_yaml_sha256: 6d10474d96d73b7c8d957140c38920cb9c8e72e49f06cf29aeec8b549b03889c
+    answer_yaml_sha256: 69c0eb257b543e9a18e2cb5365fa4d05d530839c062c1cb86b207d6899ee8aaa
+  - id: T012
+    family: config-handling
+    difficulty: easy
+    task_yaml_sha256: 83d79f799ccc57af72cee640ec75df8c5cfed2cd762b07c28f2a8389882adca1
+    answer_yaml_sha256: 658491393929b51fcf81e9d44517fac8ff1e64127377ed7b825a2f0c75fcc126
+  - id: T013
+    family: documentation
+    difficulty: medium
+    task_yaml_sha256: 0eec075961672214f51fe2c9c65e6db81e4fba5728af151222e7f84f8f737090
+    answer_yaml_sha256: 5169c5592e3429d9d73d79125633dba5eda507cd5a3be34a7f39b08dfef55355
+  - id: T014
+    family: refactoring
+    difficulty: medium
+    task_yaml_sha256: ebcf0e8de0a0d770d85bfcc017c4d7c2faf21efd1190d10bf743b1a1f47e9e9e
+    answer_yaml_sha256: d016b1316aec7be465e316aeb3ce6ada177b21153ca877712b9f0b99cc7c0b1f
+  - id: T015
+    family: bug-detection
+    difficulty: medium
+    task_yaml_sha256: 2d66d96f1ee38c6d96f308c28d7dbe04d3cb540fb2b9999d553c1f4ebf820279
+    answer_yaml_sha256: a276d934ca1950c6e43df5c452c13c17f5fac27cd85867d7b491a51f05736f64
+  - id: T016
+    family: code-review
+    difficulty: medium
+    task_yaml_sha256: 073d7db767e952233035c91458f7dba5794efb218a35a46c1211fbc629e84b51
+    answer_yaml_sha256: 0cfdafee2df5af28416a707a5f93b5c531dcc2fb214a116666c83ae5b26b6b85
+  - id: T017
+    family: bug-detection
+    difficulty: medium
+    task_yaml_sha256: 0502a2d8e2ea02ab36c528bbe99cdb82c319d8a7bef67175372963d2853f8f47
+    answer_yaml_sha256: c628f1f6b3a50ea6c7ba490432f248aa4b78df05141d92bcbf83d14a4991b8ad
+  - id: T018
+    family: edge-case-analysis
+    difficulty: medium
+    task_yaml_sha256: 2b8719489ec6dcd1caf742ed6463b42c7354c41f0d09048d3bcec4c796a8eaa8
+    answer_yaml_sha256: 464ace4d915f3a07bd1c97a6591ead2f0b7376e90133a628b29dcf13e8915b42
+  - id: T019
+    family: naming-consistency
+    difficulty: medium
+    task_yaml_sha256: 13dc5258daaed2a69aaed01f0676d118be9af841383bfb0ef312767c943612bd
+    answer_yaml_sha256: 5e04e6c2d03ae44d12b41da3512a9d91a194a81acbe8719aacae638b8e78cd87
+  - id: T020
+    family: design-evaluation
+    difficulty: medium
+    task_yaml_sha256: 5b5e0d10c0444f026b84a8e5e69d5c527bbdb81b3bb1a1f1f99f3def7ee6f879
+    answer_yaml_sha256: dd6b8edb6d68c11c8a44612483db04b55e9a9d80117b65ff6a9d6ab5e92b9f7d
+  - id: T021
+    family: design-evaluation
+    difficulty: medium
+    task_yaml_sha256: 1e9e7200d42bcb2af067c64896fb13d0e2bf20e5d397a479a92588be6d2dfe35
+    answer_yaml_sha256: f7a4045b375937689e0bf3b7b01b6066e7758de4efff8b0bc02bfa7dd1f66593
+  - id: T022
+    family: documentation
+    difficulty: medium
+    task_yaml_sha256: 2e896f776cdb92970b3f6865feff3753909b820bbb9f6605f7c766736c0cc9b2
+    answer_yaml_sha256: c2e5d9228f5482d0ca5a18446ecdaf773d05148e0545d78842cb093e63e7e2c6
+  - id: T023
+    family: test-writing
+    difficulty: medium
+    task_yaml_sha256: 48af93324581a114ea3004c2a6fe67166ce32a084934c7259f2e075a7e57f9e9
+    answer_yaml_sha256: 348481ac93da97cb7b45c3a9b6c4b0cede392d7486f5527b379bfbe043724dc2
+  - id: T024
+    family: test-writing
+    difficulty: medium
+    task_yaml_sha256: 527c45938aef0334654308da383183e11b0eb5966688249ae05e95d7028353fe
+    answer_yaml_sha256: 4e0d8d79ff60e05912b04e677c64aec07584de154ca7be5fc90c6334a8d1c738
+  - id: T025
+    family: config-handling
+    difficulty: medium
+    task_yaml_sha256: de9bc0565c3157384e4d73c2bcaed735627220a864715742d2b1b8215db1b44e
+    answer_yaml_sha256: e287eb21adc58bd0541da479cefae60188e9c189de5bef683b9f1ac0e4f87ecb
+  - id: T026
+    family: config-handling
+    difficulty: medium
+    task_yaml_sha256: 4d0b0c14a5085d1b1a31fad50e2463c329fa345c38513e0d8d1b3020acf76220
+    answer_yaml_sha256: c50aa55ca5c9386161a17e4d942b45fd0bf8279172a05b940001984c5ebae439
+  - id: T027
+    family: refactoring
+    difficulty: medium
+    task_yaml_sha256: 8886904b6b96a0c62f79cfa6a8f825404326bc8b83d18cd5e27ea66c751a5850
+    answer_yaml_sha256: 355d4120fc9fe89c1c7cc0690d4719c28da9f3a1a5d57e09b280dc1f5f0d4ecf
+  - id: T028
+    family: code-review
+    difficulty: medium
+    task_yaml_sha256: f6b2223df8f629e69053e90368c9a372f232ca07fbb74adb6f96a56705a96b33
+    answer_yaml_sha256: 85a2fc23f599b6dc8122b76376417d4f9d16aae1d054b568b9506eb39c001e3b
+  - id: T029
+    family: edge-case-analysis
+    difficulty: medium
+    task_yaml_sha256: cc2162bda2a1b64240a0e7a7248bde2a408b7d28363bd716cf55e2b385c2fffb
+    answer_yaml_sha256: 94b406f55a08bf6ae3fa8aef7087e9413fffe71536034c960e087fd223c02a3e
+  - id: T030
+    family: documentation
+    difficulty: medium
+    task_yaml_sha256: ce2fa76d9f18efcf9b315a8b662943f8b79826366cdafe3002e2d7600b9b69e3
+    answer_yaml_sha256: 67c7767904b1f3549fb9902b0ded06ec790fceb46e882c9570281e042f388ab9
+  - id: T031
+    family: performance-analysis
+    difficulty: medium
+    task_yaml_sha256: de9e6f5ff59c60a986ebd72ef01e3b23e3e75bd8eb2c91c8ace595ef3204c9d5
+    answer_yaml_sha256: 9e6531184ab6d3a1e94dfe49e8a74702093e7f6c6b0888d7b10a2eabca2f96c4
+  - id: T032
+    family: test-writing
+    difficulty: medium
+    task_yaml_sha256: 5671d9b7a16b3848a22507da1c158d4716cf579f184b71ca084aa1417dc38cd7
+    answer_yaml_sha256: 6c079d68c914347f13b289af8c4cb7cc60850a39fc65c5bd28f517f7e2cd145a
+  - id: T033
+    family: refactoring
+    difficulty: hard
+    task_yaml_sha256: 06f72e609e9bca15b4e88a533f31cb3dc540be49f573a7b96f9587ed48ec191e
+    answer_yaml_sha256: a46f225fc49076538bed9f8d32f410bb4a3d6f20e9944b30d23774f0407bdd77
+  - id: T034
+    family: design-evaluation
+    difficulty: hard
+    task_yaml_sha256: 122149f9b5883b550048e6d68428c54ade4a34587d4d9813cd1d7550d6dd2dff
+    answer_yaml_sha256: c95157ef3382a45687c59f225d9c11e66449989f2c8e4147894c5387cedf3af4
+  - id: T035
+    family: bug-detection
+    difficulty: hard
+    task_yaml_sha256: acfc1ae7b440d3258baea9db11811d94690dbeba5f225fb9e44c1917ecbec431
+    answer_yaml_sha256: c15243ae2203b644b7d8485f8d0685821c0ffb670dc689042b659adb051041b1
+  - id: T036
+    family: performance-analysis
+    difficulty: hard
+    task_yaml_sha256: 6e11749ffa6e2864ff9c67ad0d2f7737a70a2b0451282953362b6b1e0ba97155
+    answer_yaml_sha256: 343827b661e2df9d135c34e544e64d86b82f8caea627fa87c97ef8c33a375fc3
+  - id: T037
+    family: test-writing
+    difficulty: hard
+    task_yaml_sha256: 6868aa3eed7a21970f8c51214742c2807665a49c5bb1be57fcf01b6c65929246
+    answer_yaml_sha256: efbe5f21e0fc30f74416f30b2a10dfe22f7ec9ae434aea7cdcc754fd5f5ca378
+  - id: T038
+    family: code-review
+    difficulty: hard
+    task_yaml_sha256: fa2c811d08fd3ef93ca1ca26909fdeba9cd5281f39ab8de5a13c8293065c3cf9
+    answer_yaml_sha256: 5035ffa26ca492dc75e1cfa9cd796bc5ae08239d66f319dcfa4b94d22eba01d9
+  - id: T039
+    family: edge-case-analysis
+    difficulty: hard
+    task_yaml_sha256: 386121ac83bba0066bd865d1ada63eddf5432441622b142c15e7acb4c68b89e0
+    answer_yaml_sha256: 7ccd27badf2d2b48fd9f18fc3e096cfb0a73a866a2b0d5b53a925cd4a93493f2
+  - id: T040
+    family: refactoring
+    difficulty: hard
+    task_yaml_sha256: 0230841a1ef87932e8532d15d6333cb8e786b712fb6ac7bca6cd82913f9a6f73
+    answer_yaml_sha256: ac4d3825840271561fff3bff59366c1c856d90c3b58f28e19789d91762559a72
+  - id: T041
+    family: bug-detection
+    difficulty: hard
+    task_yaml_sha256: 0404889a7b72bf3664b22245ace0992f3161e87899e38ddef9dc3ae207555563
+    answer_yaml_sha256: bcde0bffb6388e5653fda90ab8dbd4181f99e90b033c73fc81500ef860f54aeb
+  - id: T042
+    family: refactoring
+    difficulty: hard
+    task_yaml_sha256: de2106ba53bdb159829869ee9595efce80fa231b3e268871c6437b33187530bc
+    answer_yaml_sha256: 8ed9484c3f7cf8ff8d25d576ff526eaf8726645f7cfa365ac489da46e87c17d9
+  - id: T043
+    family: security-review
+    difficulty: hard
+    task_yaml_sha256: b76c474f3d01666dcaea6e5d8915905ba99458918b1f722215abcf41483acc90
+    answer_yaml_sha256: 7b0a8d2547b018d4c3189d253d6cf6afdb397c5f003f14e1de10018a4d449c76
+  - id: T044
+    family: design-evaluation
+    difficulty: hard
+    task_yaml_sha256: 9f88b5cd63150f2efa9790fb46b585ee0488a826aab8889be211d7e97d56585c
+    answer_yaml_sha256: 89959b0ad3964e46203d60fa1bac997c22bc48b5b0c0a4912542ac3458abe9ac
+  - id: T045
+    family: test-writing
+    difficulty: hard
+    task_yaml_sha256: 6d4dda13c6bfd0eac7c9b5bd38d86800626d53b56d29c4d59d5eed614b92a668
+    answer_yaml_sha256: f238a5da47e319ccfd1b4e9e7b774418636906686a43fc0f1da8cb72adc7cbae
+  - id: T046
+    family: performance-analysis
+    difficulty: hard
+    task_yaml_sha256: fbb46c609efa3ec5a97101d87754744db67d2aeeb825812092ce173004017d2e
+    answer_yaml_sha256: 97342949c8338570ccebc9a6a644b09a9baeb72cd95bf4fb792a96fbab1b1c6f
+  - id: T047
+    family: tradeoff-reasoning
+    difficulty: expert
+    task_yaml_sha256: effbb044407f1034bf73f553a7bcfdfdcaa7f55f72ba62ca43ff40dddb062528
+    answer_yaml_sha256: 36d5ced790977d49e5f2e171e0f65a2bf97930a803dbc591475f9cae343e4099
+  - id: T048
+    family: design-evaluation
+    difficulty: expert
+    task_yaml_sha256: b2c3e76bd5caa55649ac7ba4622a7e5ff88dcd1213e05aedf913fae01f7945a1
+    answer_yaml_sha256: c681220f208e60ad3a2e6e636f85abbb99b064e8cdbe714df967e7f9d5c1b45b
+  - id: T049
+    family: security-review
+    difficulty: expert
+    task_yaml_sha256: b9f3d68f4b5864abeb6e4aff796526a6dc82a7a5ecd07a973c6d58dd59bf897a
+    answer_yaml_sha256: 81e93171488a7b160b1860232ee384e1fa406d12caabc689175d84126f162034
+  - id: T050
+    family: tradeoff-reasoning
+    difficulty: expert
+    task_yaml_sha256: 8cb00ef02f0182dd6168800a6524149547509bd613519c513d378a4ee3d844a9
+    answer_yaml_sha256: dd4aec3d2f665d717e27f665d3ce75b306ccc20992df1112c2d810c6a43b7e3c

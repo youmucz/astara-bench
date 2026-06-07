@@ -1,0 +1,12 @@
+answer:
+  task_id: T014
+  ground_truth:
+    type: set
+    expected_items:
+      - "extract method"
+      - "nesting reduced"
+      - "helper function"
+      - "docstring"
+      - "behavior preserved"
+  rationale: |
+    Extract at least 2 helper functions; reduce nesting to ≤ 2; preserve behavior.

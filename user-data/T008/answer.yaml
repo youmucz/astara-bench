@@ -1,0 +1,10 @@
+answer:
+  task_id: T008
+  ground_truth:
+    type: set
+    expected_items:
+      - "O(n)"
+      - "linear"
+      - "n where n is len(lst)"
+  rationale: |
+    Single loop over list: O(n) time.

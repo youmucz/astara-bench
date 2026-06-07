@@ -1,0 +1,13 @@
+answer:
+  task_id: T023
+  ground_truth:
+    type: set
+    expected_items:
+      - "test happy"
+      - "test empty"
+      - "test negative"
+      - "test out_of_range"
+      - "boundary"
+      - "ValueError"
+  rationale: |
+    4 tests: happy (parse_age('25')==25), empty (raises), negative (raises), out_of_range (raises).

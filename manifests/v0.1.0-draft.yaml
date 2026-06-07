@@ -1,0 +1,28 @@
+# general-agent-bench v0.1.0-draft manifest
+# 5 example tasks (NOT a v1.0.0 frozen set; 50 slots required for v1.0.0)
+# SHA-256 checksums pinned per task.
+
+version: 0.1.0-draft
+frozen: false
+required_for_v1: 50
+current_count: 5
+
+tasks:
+  - id: T001-easy-config-bool
+    task_yaml_sha256: 08a6a408fcbea16998973c3457851398e67efaff9d1324ade72ead2c60b9f3ea
+    answer_yaml_sha256: 95b85d91a70a76ebbfd4ea02460f004d6ab4bda5e477111cb6e6eaad895e013e
+  - id: T002-easy-code-review
+    task_yaml_sha256: 9a6cf276b0d025aaf0b904007c37255a51ecf824bcf056b9ea9dbbdc6b6cfe64
+    answer_yaml_sha256: 408c4e1aecada4f3c5c9db1a89365340e7ff8b5d0ebf81e7b8046d440df97f3b
+  - id: T015-medium-bug-detection
+    task_yaml_sha256: 2d66d96f1ee38c6d96f308c28d7dbe04d3cb540fb2b9999d553c1f4ebf820279
+    answer_yaml_sha256: a276d934ca1950c6e43df5c452c13c17f5fac27cd85867d7b491a51f05736f64
+  - id: T020-medium-design-eval
+    task_yaml_sha256: 5b5e0d10c0444f026b84a8e5e69d5c527bbdb81b3bb1a1f1f99f3def7ee6f879
+    answer_yaml_sha256: dd6b8edb6d68c11c8a44612483db04b55e9a9d80117b65ff6a9d6ab5e92b9f7d
+  - id: T040-hard-refactoring
+    task_yaml_sha256: 0230841a1ef87932e8532d15d6333cb8e786b712fb6ac7bca6cd82913f9a6f73
+    answer_yaml_sha256: ac4d3825840271561fff3bff59366c1c856d90c3b58f28e19789d91762559a72
+
+# Checksum of this manifest file itself (computed at freeze time, NOT now):
+manifest_sha256: pending_at_freeze

@@ -1,0 +1,13 @@
+answer:
+  task_id: T022
+  ground_truth:
+    type: set
+    expected_items:
+      - "endpoint"
+      - "request body"
+      - "response"
+      - "errors"
+      - "status codes"
+      - "auth"
+  rationale: |
+    Should cover: auth requirement, request schema, response schema, error codes.

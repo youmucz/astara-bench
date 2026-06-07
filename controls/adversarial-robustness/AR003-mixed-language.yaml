@@ -1,0 +1,21 @@
+# AR003 鈥?Mixed language
+control:
+  id: AR003
+  layer: adversarial-robustness
+  type: adversarial
+  name: "Mixed-language prompt"
+  description: "Mixed Chinese-English prompt. LLM must process and respond correctly."
+  framework_dependency: NONE
+  expectation:
+    llm_handles_mixed_input: true
+  failure_action: ABORT_EXPERIMENT
+  task:
+    family: edge-case-analysis
+    difficulty:
+      self_assessed: medium
+      axis_scores: {cognitive_complexity: 2, information_availability: 1, gt_clarity: 2, domain_breadth: 1}
+    input:
+      prompt: "璇风敤涓€鍙ヨ瘽瑙ｉ噴浠€涔堟槸 Python 涓殑鍒楄〃鎺ㄥ寮?(list comprehension)銆傜敤涓枃鍥炵瓟銆?
+      mode: one_shot
+    evaluation:
+      pass_criteria: {type: set_match, must_include_any: ["鍒楄〃鎺ㄥ寮?, "list comprehension", "绠€娲?]}

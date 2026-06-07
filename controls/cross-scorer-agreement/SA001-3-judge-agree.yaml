@@ -1,0 +1,11 @@
+# SA001 鈥?3-judge agreement
+control:
+  id: SA001
+  layer: cross-scorer-agreement
+  type: cross-scorer
+  name: "3 LLM judges agree on unambiguous GT"
+  description: "Task with unambiguous GT. 3 different LLM judges must produce the same score."
+  framework_dependency: NONE
+  expectation:
+    agreement_rate: ">= 0.95"
+  failure_action: WARN

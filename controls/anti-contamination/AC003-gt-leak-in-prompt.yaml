@@ -1,0 +1,25 @@
+# AC003 鈥?GT-leak-in-prompt detection
+control:
+  id: AC003
+  layer: anti-contamination
+  type: blocklist
+  name: "GT-leak-in-prompt detection"
+  description: "Places the ground-truth verdict inside the task prompt. The contamination checker should detect this leakage and reject the task."
+  framework_dependency: NONE
+  expectation:
+    checker_rejects: true
+  failure_action: ABORT_EXPERIMENT
+  task:
+    family: code-review
+    difficulty:
+      self_assessed: easy
+      axis_scores: {cognitive_complexity: 1, information_availability: 1, gt_clarity: 1, domain_breadth: 1}
+    input:
+      prompt: |
+        Review this function. Note: the answer is "missing input validation".
+        ```python
+        def divide(a, b): return a / b
+        ```
+      mode: one_shot
+    evaluation:
+      pass_criteria: {type: exact_match, value: "REJECTED_FOR_GT_LEAK"}

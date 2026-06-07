@@ -1,0 +1,13 @@
+answer:
+  task_id: T033
+  ground_truth:
+    type: set
+    expected_items:
+      - "Strategy"
+      - "interface"
+      - "5 strategies"
+      - "context"
+      - "register"
+      - "factory"
+  rationale: |
+    Create OutputStrategy interface, 5 concrete strategies, Context class that delegates.

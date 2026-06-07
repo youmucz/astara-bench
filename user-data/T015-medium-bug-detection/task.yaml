@@ -1,0 +1,51 @@
+task:
+  id: T015
+  version: 1
+  created: 2026-06-09
+  author: keely-bench-pilot
+  reviewer: keely-bench-pilot
+
+  difficulty:
+    self_assessed: medium
+    rationale: "Bash script bug diagnosis; requires understanding glob expansion. Sum 8 → medium."
+    axis_scores:
+      cognitive_complexity: 3
+      information_availability: 2
+      gt_clarity: 2
+      domain_breadth: 1
+
+  family: bug-detection
+  sub_family: bash
+
+  input:
+    prompt: |
+      This bash script is supposed to count the number of .txt files
+      in the current directory. Find the bug. Explain it in 1-2 sentences.
+
+      ```bash
+      count=0
+      for f in *.txt; do
+          count=count + 1
+      done
+      echo "Found $count files"
+      ```
+    mode: one_shot
+
+  evaluation:
+    pass_criteria:
+      type: set_match
+      must_include_any:
+        - ["no files", "empty directory", "*.txt matches no"]
+        - ["f is literal", "for f in *.txt", "f becomes the glob itself"]
+        - ["missing test", "no check for files"]
+    timeout_sec: 60
+    max_tokens: 1000
+
+  contamination:
+    blocklist_check: true
+    no_famous_cve_pattern: true
+    identifier_randomized: true
+    gt_in_separate_file: true
+    answer_not_in_prompt: true
+    pr_dual_approved: true
+    checksum: pending

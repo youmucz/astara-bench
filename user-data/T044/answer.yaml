@@ -1,0 +1,13 @@
+answer:
+  task_id: T044
+  ground_truth:
+    type: set
+    expected_items:
+      - "normalization"
+      - "index"
+      - "scalability"
+      - "integrity"
+      - "evolvability"
+      - "sharding"
+  rationale: |
+    Address all 5 dimensions; suggest specific schema changes.

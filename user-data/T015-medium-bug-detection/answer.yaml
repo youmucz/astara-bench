@@ -1,0 +1,12 @@
+answer:
+  task_id: T015
+  ground_truth:
+    type: set
+    expected_items:
+      - "no files matched"
+      - "f is literal"
+  rationale: |
+    If no .txt files exist, the glob `*.txt` is not expanded (in non-bash-default
+    shells) and `f` becomes the literal string "*.txt", so count=1 incorrectly.
+    Fix: use `for f in *.txt; do [ -e "$f" ] || continue; count=$((count+1)); done`
+    or use a glob-check before the loop.

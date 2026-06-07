@@ -1,0 +1,13 @@
+answer:
+  task_id: T029
+  ground_truth:
+    type: set
+    expected_items:
+      - "empty string"
+      - "non-ASCII"
+      - "emoji"
+      - "surrogate pairs"
+      - "n < 0"
+      - "n larger than len"
+  rationale: |
+    Edge cases: empty string, multi-byte chars (emoji), n < 0, n > len(s).

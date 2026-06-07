@@ -1,0 +1,29 @@
+# NC002 鈥?Parse malformed YAML
+control:
+  id: NC002
+  layer: pipeline-sanity
+  type: negative
+  name: "Malformed: parse invalid YAML"
+  description: "Asks the LLM to parse deliberately malformed YAML. Must fail or return error."
+  framework_dependency: NONE
+  expectation:
+    top_model_pass_rate: "<= 0.05"
+  failure_action: ABORT_EXPERIMENT
+  task:
+    family: config-handling
+    difficulty:
+      self_assessed: easy
+      axis_scores: {cognitive_complexity: 1, information_availability: 1, gt_clarity: 1, domain_breadth: 1}
+    input:
+      prompt: |
+        Parse this YAML and report the value of `name`:
+        ```yaml
+        service:
+          name: alpha
+           port: 80
+        tabs:	[unclosed
+        ```
+        Reply with only the value, or "PARSE_ERROR" if you cannot parse it.
+      mode: one_shot
+    evaluation:
+      pass_criteria: {type: exact_match, value: "PARSE_ERROR"}

@@ -1,0 +1,11 @@
+answer:
+  task_id: T048
+  ground_truth:
+    type: jury
+    verdict: "pass"
+    criteria:
+      - "comprehensive coverage"
+      - "specific evidence"
+      - "balanced judgment"
+  rationale: |
+    Jury evaluates: found ≥ 3 issues, each with mitigation, identified 2 missing things, verdict justified, no hallucinated issues.

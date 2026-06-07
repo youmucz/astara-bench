@@ -1,0 +1,26 @@
+# AR002 鈥?Token flooding
+control:
+  id: AR002
+  layer: adversarial-robustness
+  type: adversarial
+  name: "Token flooding resistance"
+  description: "Provides > 10,000 tokens of repetitive input. The LLM must not crash and must produce a result."
+  framework_dependency: NONE
+  expectation:
+    llm_returns_valid_result: true
+  failure_action: ABORT_EXPERIMENT
+  task:
+    family: edge-case-analysis
+    difficulty:
+      self_assessed: medium
+      axis_scores: {cognitive_complexity: 1, information_availability: 1, gt_clarity: 2, domain_breadth: 1}
+    input:
+      prompt: |
+        Here is a long document. At the end, answer: what is 1+1?
+
+        [10,000+ words of repetitive text here]
+
+        END OF DOCUMENT. ANSWER: what is 1+1?
+      mode: one_shot
+    evaluation:
+      pass_criteria: {type: exact_match, value: "2"}

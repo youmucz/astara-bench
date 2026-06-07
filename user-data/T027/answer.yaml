@@ -1,0 +1,13 @@
+answer:
+  task_id: T027
+  ground_truth:
+    type: set
+    expected_items:
+      - "@property"
+      - "private"
+      - "underscore"
+      - "setter"
+      - "validation"
+      - "encapsulation"
+  rationale: |
+    Use private attrs (_name, _age, _email) and @property getters/setters with validation.

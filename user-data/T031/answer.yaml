@@ -1,0 +1,13 @@
+answer:
+  task_id: T031
+  ground_truth:
+    type: set
+    expected_items:
+      - "O(n²)"
+      - "nested loop"
+      - "use set"
+      - "use dict"
+      - "index"
+      - "memoize"
+  rationale: |
+    Find the O(n²) part and suggest using a set/dict for O(1) lookup.

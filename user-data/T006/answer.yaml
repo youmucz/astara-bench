@@ -1,0 +1,11 @@
+answer:
+  task_id: T006
+  ground_truth:
+    type: set
+    expected_items:
+      - "snake_case vs camelCase"
+      - "mixed conventions"
+      - "userAge should be user_age"
+      - "User_Email should be user_email"
+  rationale: |
+    Three different naming conventions in one block. Suggest snake_case for all.

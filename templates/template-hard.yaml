@@ -1,0 +1,47 @@
+# Template: Hard difficulty task
+# Hard = multi-step reasoning, fuzzy GT, may require synthesis.
+task:
+  id: TXXX
+  version: 1
+  created: 2026-06-09
+  author: <github-handle>
+  reviewer: <github-handle-2>
+
+  difficulty:
+    self_assessed: hard
+    rationale: "Multi-step reasoning, list-F1 GT, expect 35-60% pass rate from top models."
+    axis_scores:
+      cognitive_complexity: 4
+      information_availability: 3
+      gt_clarity: 3
+      domain_breadth: 3
+
+  family: security-review
+  sub_family: multi-vuln
+
+  input:
+    prompt: |
+      Review the following Python web application for security vulnerabilities.
+      List each vulnerability with: name, severity (critical/high/medium/low), location (line), and a 1-line fix.
+
+      ```python
+      {{python_web_app}}
+      ```
+    mode: one_shot
+
+  evaluation:
+    pass_criteria:
+      type: list_f1
+      min_precision: 0.6
+      min_recall: 0.5
+      min_f1: 0.55
+    timeout_sec: 120
+    max_tokens: 2000
+
+  contamination:
+    blocklist_check: true
+    no_famous_cve_pattern: true
+    identifier_randomized: true
+    gt_in_separate_file: true
+    answer_not_in_prompt: true
+    pr_dual_approved: true

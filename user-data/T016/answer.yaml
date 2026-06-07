@@ -1,0 +1,12 @@
+answer:
+  task_id: T016
+  ground_truth:
+    type: set
+    expected_items:
+      - "magic number"
+      - "long function"
+      - "no error handling"
+      - "no docstring"
+      - "duplicate code"
+  rationale: |
+    Issues should be specific, ranked, and actionable.

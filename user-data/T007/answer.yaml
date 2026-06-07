@@ -1,0 +1,11 @@
+answer:
+  task_id: T007
+  ground_truth:
+    type: set
+    expected_items:
+      - "hardcoded secret"
+      - "API_KEY in source"
+      - "password in source"
+      - "use environment variable"
+  rationale: |
+    Three hardcoded secrets; should use env vars or a secrets manager.

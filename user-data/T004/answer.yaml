@@ -1,0 +1,10 @@
+answer:
+  task_id: T004
+  ground_truth:
+    type: set
+    expected_items:
+      - "abs(x) * 2"
+      - "abs(x) * 3"
+      - "abs(x)"
+  rationale: |
+    Both functions can be expressed using abs(): f(x) = abs(x)*2, g(x) = abs(x)*3.

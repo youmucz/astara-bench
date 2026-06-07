@@ -1,0 +1,13 @@
+answer:
+  task_id: T041
+  ground_truth:
+    type: set
+    expected_items:
+      - "encoding"
+      - "UTF-8 BOM"
+      - "newline"
+      - "quoting"
+      - "header"
+      - "comma in field"
+  rationale: |
+    Likely: encoding handling, BOM, newline mode, embedded commas.

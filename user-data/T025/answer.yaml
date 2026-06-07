@@ -1,0 +1,12 @@
+answer:
+  task_id: T025
+  ground_truth:
+    type: set
+    expected_items:
+      - "os.environ"
+      - "getenv"
+      - "default"
+      - "DATABASE_URL"
+      - "validation"
+  rationale: |
+    Use os.environ.get with defaults; consider building DATABASE_URL.

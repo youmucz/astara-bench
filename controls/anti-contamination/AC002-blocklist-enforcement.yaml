@@ -1,0 +1,22 @@
+# AC002 鈥?Blocklist enforcement
+control:
+  id: AC002
+  layer: anti-contamination
+  type: blocklist
+  name: "Blocklist mechanism enforcement"
+  description: "Injects a random blocklist term into a task and verifies the contamination checker rejects it. The actual injected term is read from config/blocklist.yaml at runtime; this control is mechanism-agnostic."
+  framework_dependency: NONE
+  expectation:
+    checker_rejects: true
+    blocklist_source: "config/blocklist.yaml"
+  failure_action: ABORT_EXPERIMENT
+  task:
+    family: config-handling
+    difficulty:
+      self_assessed: easy
+      axis_scores: {cognitive_complexity: 1, information_availability: 1, gt_clarity: 1, domain_breadth: 1}
+    input:
+      prompt: "Process the user-supplied configuration. Detect any terms on the configured blocklist."
+      mode: one_shot
+    evaluation:
+      pass_criteria: {type: exact_match, value: "BLOCKLIST_REJECTED"}
