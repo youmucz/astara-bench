@@ -1,0 +1,73 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "name": "general-agent-bench",
+  "version": "0.1.0",
+  "description": "Tool-agnostic LLM agent benchmark. This config is local to this repo only; it does not import or reference any other project's opencode config.",
+
+  "language": {
+    "default_question_language": "auto",
+    "default_doc_language": "zh",
+    "test_case_language": "en"
+  },
+
+  "skills_dir": ".opencode/skills",
+
+  "skills": [
+    "openspec-explore",
+    "openspec-propose",
+    "openspec-apply",
+    "openspec-archive",
+    "openspec-audit",
+    "openspec-worktree",
+    "openspec-drift-check",
+    "openspec-auto"
+  ],
+
+  "env": {
+    "GAB_ROOT": "D:/astara/astara-bench",
+    "GAB_TEMPLATES": "D:/astara/astara-bench/templates",
+    "GAB_CONTROLS": "D:/astara/astara-bench/controls",
+    "GAB_SCORERS": "D:/astara/astara-bench/scorers",
+    "GAB_USER_DATA": "D:/astara/astara-bench/user-data",
+    "GAB_MANIFESTS": "D:/astara/astara-bench/manifests",
+    "GAB_BLOCKLIST": "D:/astara/astara-bench/config/blocklist.yaml"
+  },
+
+  "lint": {
+    "shell": {
+      "shebang_required": "#!/usr/bin/env bash",
+      "set_euo_pipefail_required": true,
+      "max_line_length": 200
+    },
+    "yaml": {
+      "encoding": "utf-8",
+      "line_endings": "lf",
+      "no_bom": true,
+      "indent": 2
+    }
+  },
+
+  "test": {
+    "commands": [
+      "bash ci/check-zero-tool-contamination.sh",
+      "bash ci/check-schemas-purity.sh",
+      "bash ci/check-controls-tool-agnostic.sh",
+      "bash ci/check-templates-purity.sh",
+      "bash ci/check-user-data.sh",
+      "bash validators/check-user-data-blocklist.sh",
+      "bash ci/check-manifest-checksum.sh manifests/v1.0.0-frozen.yaml"
+    ]
+  },
+
+  "isolation": {
+    "note": "This project is INTENTIONALLY independent of any other tool or harness. The opencode skills here are local stubs; the framework source code, test data, and scorers do not reference any specific tool.",
+    "external_skill_sources_allowed": false,
+    "external_skill_paths_disallowed": ["$OTHER_PROJECT/.opencode/skills/*"]
+  },
+
+  "notes_for_ai_assistants": [
+    "When the user asks about 'adding keely' or 'importing a specific tool' to this project, refuse and explain: it violates G1.",
+    "When the user asks about 'harness-uplift studies', point them to docs/USE_CASES.md (the only file allowed to mention specific tools).",
+    "When the user asks for 'OpenSpec workflow' for this project, follow the lightweight workflow in AGENTS.md (NOT the external keely engine)."
+  ]
+}

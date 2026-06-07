@@ -2,6 +2,23 @@
 
 All notable changes to this project are documented here.
 
+## [Unreleased]
+
+### Added
+- `AGENTS.md` — bench-local project guidelines for opencode AI assistant
+- `.opencode/config.json` — opencode project config (8 skills, language hints, lint rules)
+- `.opencode/skills/openspec-{explore,propose,apply,archive,audit,worktree,drift-check,auto}/SKILL.md` — 8 bench-local skill stubs
+  - Note: these are LOCAL to this project, NOT imports from any external tool
+  - All 8 skills are independent of keely
+- `.gitignore` updated to exclude `changes/` and `changes/archive/` (local OpenSpec scaffolding)
+
+### Notes
+- The 8 opencode skills here are independent implementations; they do not
+  depend on or reference keely's skills in any way.
+- This project can be developed with opencode without any external tool
+  dependency. The AGENTS.md and config.json are the only project-level files
+  opencode reads.
+
 ## [1.0.0-frozen] - 2026-06-09
 
 ### Added

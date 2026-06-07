@@ -1,4 +1,4 @@
-# general-agent-bench ignore patterns
+﻿# general-agent-bench ignore patterns
 # SPDX-License-Identifier: Apache-2.0
 
 # Run results
@@ -22,3 +22,7 @@ Thumbs.db
 node_modules/
 __pycache__/
 *.pyc
+
+# Local OpenSpec change scaffolding (project-internal)
+changes/
+changes/archive/
