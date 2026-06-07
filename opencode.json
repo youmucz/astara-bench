@@ -1,0 +1,34 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "minimax-cn-coding-plan/MiniMax-M3",
+  "plugin": [
+    "opencode-vibeguard",
+    "@franlol/opencode-md-table-formatter@latest",
+    "@spoons-and-mirrors/subtask2@latest"
+  ],
+  "mcp": {
+    "MiniMax": {
+      "type": "local",
+      "command": ["uvx", "minimax-coding-plan-mcp", "-y"],
+      "enabled": true
+    }
+  },
+  "share": "disabled",
+  "autoupdate": false,
+  "experimental": {
+    "openTelemetry": false
+  },
+  "permission": {
+    "bash": {
+      "*": "allow",
+      "git *": "allow",
+      "npm *": "allow",
+      "rm *": "allow",
+      "grep *": "allow"
+    },
+    "edit": {
+      "*": "allow",
+      "packages/web/src/content/docs/*.mdx": "allow"
+    }
+  }
+}
